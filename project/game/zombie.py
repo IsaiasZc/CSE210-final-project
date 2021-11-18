@@ -1,0 +1,14 @@
+from game.enemies import Enemies
+from game import constants
+
+class Zombie(Enemies):
+
+    def __init__(self):
+
+        self._image = ":resources:images/animated_characters/zombie/zombie_walk6.png"
+        self._scale = 0.5
+        super().__init__(self._image,self._scale)
+
+
+        self.center_x = constants.SCREEN_HEIGHT / 2
+        self.center_y = constants.SCREEN_WIDTH / 2 

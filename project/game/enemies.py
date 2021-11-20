@@ -9,8 +9,8 @@ class Enemies(arcade.Sprite):
     def __init__(self, image, scale):
         super().__init__(image,scale)
 
-        self.life = None
-        self.speed = None
+        self._life = None
+        self._speed = None
 
         self.change_x = 0
         self.change_y = -1
@@ -22,7 +22,6 @@ class Enemies(arcade.Sprite):
 
         for i, path in enumerate(constants.SCREEN_PATH):
             last_possition = 13
-
             if position == constants.SCREEN_PATH[last_possition]:
                 self.kill()
                 break
@@ -42,3 +41,6 @@ class Enemies(arcade.Sprite):
                     self.change_x = 0
                     self.change_y = -self.speed
                 break
+        
+    def update_life(self,life):
+        self.life = life

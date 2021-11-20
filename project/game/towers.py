@@ -1,144 +1,83 @@
-# import arcade
-
-# class Towers(arcade.Sprite):
-#     """Towers template"""
-
-#     def __init__(self,img, scale):
-#         super().__init__(image, scale)
-
-#         main_path = ''
-#         self.HP = ""
-#         self.MP = ""
-#         self.attack_range = ""
-
-import math
-import os
-import random
-import time
-
 import arcade
+import math
 
-from game import constants
+class Towers(arcade.Sprite):
+    """Towers template"""
 
-SCREEN_WIDTH = constants.SCREEN_WIDTH
-SCREEN_HEIGHT = constants.SCREEN_HEIGHT
-SCREEN_TITLE = "Silver SpaceCraft"
-BULLET_SPEED = constants.BULLET_SPEED
+    def __init__(self,image, scale):
+        super().__init__(image, scale)
 
+        
+        self.damage = None
+        self._frames = 60
+        self.attack_range = ""
+        self._bullet_image = None
+        self._bullet_list = arcade.SpriteList()
+        self.bullet_speed = None
+        self.count = 0
+        self.fire_rate = 1
+    
+    def tower_atack(self, enemy):
+            
+        self.count += self.fire_rate
 
-class Enemy(arcade.Sprite):
-    def __init__(self):
-        super().__init__(":resources:images/space_shooter/playerShip3_orange.png")
-        self.speed = 4
-        self.width = 48
-        self.height = 48
-        self.center_x = random.randint(1, SCREEN_WIDTH)
-        self.center_y = SCREEN_HEIGHT + self.height
-        self.angle = 180
-        self.bullet_list = []
+        # WHere the attack start
+        start_x = self.center_x
+        start_y = self.center_y
 
-    def move(self):
-        self.center_y -= self.speed
+        # Where the attack ends
+        end_x = enemy.center_x
+        end_y = enemy.center_y
 
+        # calculate the bullet to destination.
+        dif_x = end_x  - start_x
+        dif_y = end_y - start_y
 
-class Bullet(arcade.Sprite):
-    def __init__(self, host):
-        super().__init__(":resources:images/space_shooter/laserRed01.png")
-        self.speed = 4
-        self.center_x = host.center_x
-        self.center_y = host.center_y
-        self.angle = host.angle
+        angle = math.atan2(dif_y, dif_x)
 
-    def move(self):
-        angle_rad = math.radians(self.angle)
-        self.center_x += -self.speed * math.sin(angle_rad)
-        self.center_y += self.speed * math.cos(angle_rad)
+        
+        if self.count % self._frames == 0:
 
+            bullet = self.new_bullet()
+            bullet.angle = math.degrees(angle)
 
-class SpaceCraft(arcade.Sprite):
-    def __init__(self):
-        super().__init__(":resources:images/space_shooter/playerShip1_green.png")
-        self.speed = 4
-        self.center_x = SCREEN_WIDTH // 2
-        self.center_y = 32
-        self.width = 48
-        self.height = 48
-        self.angle = 0
-        self.change_angle = 0
-        self.bullet_list = []
+            bullet.change_x = math.cos(angle) * self.bullet_speed
+            bullet.change_y = math.sin(angle) * self.bullet_speed
 
-    def rotate(self):
-        self.angle += self.change_angle * self.speed
-
-    def fire(self):
-        self.bullet_list.append(Bullet(self))
+            self._bullet_list.append(bullet)
 
 
-class Game(arcade.Window):
-    """ Main application class """
+    def new_bullet(self):
 
-    def __init__(self, width, height, title):
-        super().__init__(width, height, title)
-        arcade.set_background_color(arcade.color.BLACK)
+        bullet = arcade.Sprite(self._bullet_image,0.5)
+        bullet.center_x = self.center_x
+        bullet.center_y = self.center_y
 
-        self.background = arcade.load_texture(":resources:images/backgrounds/stars.png")
-        self.enemy_list = []
-        self.player = SpaceCraft()
-        self.start_time = time.time()
+        return bullet
+    
+    def set_bullet_image(self,image):
+        self._bullet_image = image
 
-    def on_draw(self):
-        arcade.start_render()
+    def update_bullet(self):
+        for bullet in self._bullet_list:
+            if bullet.center_x < 0 or bullet.center_x > 1200 or bullet.center_y < 0 or bullet.center_y > 800:
+                bullet.remove_from_sprite_lists()
+            bullet.update()
 
-        arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
-
-        for bullet in self.player.bullet_list:
+    def draw_bullet(self):
+        for bullet in self._bullet_list:
             bullet.draw()
+            # self.get_bullet_list()
 
-        self.player.draw()
-        
-        for enemy in self.enemy_list:
-            enemy.draw()
-
-    def on_update(self, delta_time):
-        """ All the game logic goes here. """
-        self.player.rotate()
-
-        self.end_time = time.time()
-        if self.end_time - self.start_time > 5:
-            self.enemy_list.append(Enemy())
-            self.start_time = time.time()
-
-        for enemy in self.enemy_list:
-            enemy.move()
-        
-        for bullet in self.player.bullet_list:
-            bullet.move()
-
-        for bullet in self.player.bullet_list:
-            for enemy in self.enemy_list:
-                if arcade.check_for_collision(bullet, enemy):
-                    self.enemy_list.remove(enemy)
-                    self.player.bullet_list.remove(bullet)
-
-    def on_key_press(self, key, modifiers):
-        # Rotate left/right
-        if key == arcade.key.LEFT:
-            self.player.change_angle = 1
-        elif key == arcade.key.RIGHT:
-            self.player.change_angle = -1
-        elif key == arcade.key.SPACE:
-            self.player.fire()        
-
-    def on_key_release(self, key, modifiers):
-        if key == arcade.key.LEFT or key == arcade.key.RIGHT:
-            self.player.change_angle = 0
-
-    # def on_mouse_motion(self, x, y, delta_x, delta_y):
-    #     """Called whenever the mouse moves. """
-    #     self.player.center_x = x
-    #     self.player.center_y = y
+    def get_bullet_list(self):
+        return self._bullet_list
 
 
-if __name__ == "__main__":
-    window = Game(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-    arcade.run()
+    def on_mouse_pressed(self):
+        pass
+
+    def on_mouse_motion(self):
+        pass
+
+    def on_mouse_released(self):
+        pass

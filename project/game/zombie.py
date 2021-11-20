@@ -10,5 +10,6 @@ class Zombie(Enemies):
         super().__init__(self._image,self._scale)
 
 
-        self.center_x = constants.SCREEN_HEIGHT / 2
-        self.center_y = constants.SCREEN_WIDTH / 2 
+        self.center_x, self.center_y = constants.SCREEN_PATH[0]
+
+        self.speed = 2

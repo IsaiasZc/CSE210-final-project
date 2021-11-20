@@ -2,9 +2,11 @@ import arcade
 from game import constants
 from game.zombie import Zombie
 
+
 class Director(arcade.Window):
     """The director of the game"""
-
+    # MenuView()
+    # InstructionView()
     def __init__(self):
 
         # Call the parent class and set up the window

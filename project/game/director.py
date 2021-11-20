@@ -1,4 +1,5 @@
 import arcade
+import time
 from game import constants
 from game.zombie import Zombie
 from game.wizard import Wizard
@@ -10,6 +11,7 @@ class Director(arcade.Window):
 
         # Call the parent class and set up the window
         super().__init__(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, constants.SCREEN_TITLE)
+        
 
         # # These are 'lists' that keep track of our sprites. Each sprite should
         # # go into a list.
@@ -27,6 +29,9 @@ class Director(arcade.Window):
         self.background = None # arcade.texture("project/game/images/map_one.png")
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
+        # self.enemy_list = []
+        # self.player = SpaceCraft()
+        # self.start_time = time.time()
 
     def setup(self):
 
@@ -50,6 +55,13 @@ class Director(arcade.Window):
         # Draw the bcakground texture
         arcade.draw_lrwh_rectangle_textured(0,0,constants.SCREEN_WIDTH,constants.SCREEN_HEIGHT,self.background)
 
+        for bullet in self.player.bullet_list:
+            bullet.draw()
+
+        self.player.draw()
+        
+        for enemy in self.enemy_list:
+            enemy.draw()
         
 
         self.enemy_list.draw()

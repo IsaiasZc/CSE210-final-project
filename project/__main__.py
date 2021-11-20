@@ -1,5 +1,5 @@
 import arcade
-from game.director import Director
+from game.director import Director 
 
 def main():
     """Main function"""

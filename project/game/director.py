@@ -1,6 +1,8 @@
 import arcade
+import time
 from game import constants
 from game.zombie import Zombie
+from game.towers import SpaceCraft
 
 
 class Director(arcade.Window):
@@ -11,6 +13,7 @@ class Director(arcade.Window):
 
         # Call the parent class and set up the window
         super().__init__(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, constants.SCREEN_TITLE)
+        
 
         # # These are 'lists' that keep track of our sprites. Each sprite should
         # # go into a list.
@@ -21,10 +24,14 @@ class Director(arcade.Window):
         # self.player_sprite = None
 
         self.bol = None
+        self.enemy = Zombie()
 
         self.background = None # arcade.texture("project/game/images/map_one.png")
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
+        self.enemy_list = []
+        self.player = SpaceCraft()
+        self.start_time = time.time()
 
     def setup(self):
 
@@ -39,6 +46,13 @@ class Director(arcade.Window):
         # Draw the bcakground texture
         arcade.draw_lrwh_rectangle_textured(0,0,constants.SCREEN_WIDTH,constants.SCREEN_HEIGHT,self.background)
 
+        for bullet in self.player.bullet_list:
+            bullet.draw()
+
+        self.player.draw()
+        
+        for enemy in self.enemy_list:
+            enemy.draw()
         
 
         self.bol.draw()
@@ -57,3 +71,35 @@ class Director(arcade.Window):
 
         self.bol.update()
         self.bol.move()
+
+        self.player.rotate()
+
+        self.end_time = time.time()
+        # if self.end_time - self.start_time > 5:
+        #     self.enemy_list.append(self.enemy())
+        #     self.start_time = time.time()
+
+        for enemy in self.enemy_list:
+            enemy.move()
+        
+        for bullet in self.player.bullet_list:
+            bullet.move()
+
+        for bullet in self.player.bullet_list:
+            for enemy in self.enemy_list:
+                if arcade.check_for_collision(bullet, enemy):
+                    self.enemy_list.remove(enemy)
+                    self.player.bullet_list.remove(bullet)
+
+    def on_key_press(self, key, modifiers):
+        # Rotate left/right
+        if key == arcade.key.LEFT:
+            self.player.change_angle = 1
+        elif key == arcade.key.RIGHT:
+            self.player.change_angle = -1
+        elif key == arcade.key.SPACE:
+            self.player.fire()        
+
+    def on_key_release(self, key, modifiers):
+        if key == arcade.key.LEFT or key == arcade.key.RIGHT:
+            self.player.change_angle = 0

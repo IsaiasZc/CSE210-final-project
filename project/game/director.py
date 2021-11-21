@@ -85,6 +85,9 @@ class Director(arcade.Window):
         # Draw the mat piles
         self.pile_mat_list.draw()
 
+        if len(self.held_cards) > 0:
+            self.held_cards[0].draw()
+
         self.enemy_list.draw()
         for wizard in self.wizard_list:
             wizard.draw_bullet()
@@ -137,6 +140,7 @@ class Director(arcade.Window):
             tower = Wizard()
 
             self.held_cards = [tower]
+            
             # Save the position
             self.held_cards_original_position = [self.held_cards[0].position]
 
@@ -148,20 +152,21 @@ class Director(arcade.Window):
         reset_position = True
 
         # See if we are in contact with the closest pile
-        if arcade.check_for_collision(self.held_cards[0], pile):
+        if not arcade.check_for_collision(self.held_cards[0], pile):
             
             # For each held card, move it to the pile we dropped on
             for i, dropped_card in enumerate(self.held_cards):
                 # Move cards to proper position
                 dropped_card.position = pile.center_x, pile.center_y
-
+                self.wizard_list.append(dropped_card)
+                
             # Success, don't reset position of cards
             reset_position = False
-        if reset_position:
-            # Where-ever we were dropped, it wasn't valid. Reset the each card's position
-            # to its original spot.
-            for pile_index, card in enumerate(self.held_cards):
-                card.position = self.held_cards_original_position[pile_index]
+        # if reset_position:
+        #     # Where-ever we were dropped, it wasn't valid. Reset the each card's position
+        #     # to its original spot.
+        #     for pile_index, card in enumerate(self.held_cards):
+        #         card.position = self.held_cards_original_position[pile_index]
 
         # We are no longer holding cards
         self.held_cards = []

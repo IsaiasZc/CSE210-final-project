@@ -7,7 +7,7 @@ class Towers(arcade.Sprite):
     def __init__(self,image, scale):
         super().__init__(image, scale)
 
-        
+
         self.damage = None
         self._frames = 60
         self.attack_range = ""

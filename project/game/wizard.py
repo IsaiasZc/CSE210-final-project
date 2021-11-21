@@ -13,4 +13,4 @@ class Wizard(Towers):
         self.set_bullet_image(":resources:images/space_shooter/laserBlue01.png")
         self.bullet_speed = 2
 
-        self.center_x, self.center_y = [300,400]
+        self.center_x, self.center_y = [20, constants.SCREEN_HEIGHT / 2]

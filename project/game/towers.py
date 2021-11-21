@@ -10,41 +10,46 @@ class Towers(arcade.Sprite):
 
         self.damage = None
         self._frames = 60
-        self.attack_range = ""
+        self.attack_range = None
         self._bullet_image = None
         self._bullet_list = arcade.SpriteList()
         self.bullet_speed = None
         self.count = 0
         self.fire_rate = 1
     
+        self.selected = False
+
+
     def tower_atack(self, enemy):
             
         self.count += self.fire_rate
 
+
         # WHere the attack start
-        start_x = self.center_x
-        start_y = self.center_y
+        if math.dist(enemy.position, self.position) <= self.attack_range:
+            start_x = self.center_x
+            start_y = self.center_y
 
-        # Where the attack ends
-        end_x = enemy.center_x
-        end_y = enemy.center_y
+            # Where the attack ends
+            end_x = enemy.center_x
+            end_y = enemy.center_y
 
-        # calculate the bullet to destination.
-        dif_x = end_x  - start_x
-        dif_y = end_y - start_y
+            # calculate the bullet to destination.
+            dif_x = end_x  - start_x
+            dif_y = end_y - start_y
 
-        angle = math.atan2(dif_y, dif_x)
-
+            angle = math.atan2(dif_y, dif_x)
         
-        if self.count % self._frames == 0:
+            
+            if self.count % self._frames == 0:
 
-            bullet = self.new_bullet()
-            bullet.angle = math.degrees(angle)
+                bullet = self.new_bullet()
+                bullet.angle = math.degrees(angle)
 
-            bullet.change_x = math.cos(angle) * self.bullet_speed
-            bullet.change_y = math.sin(angle) * self.bullet_speed
+                bullet.change_x = math.cos(angle) * self.bullet_speed
+                bullet.change_y = math.sin(angle) * self.bullet_speed
 
-            self._bullet_list.append(bullet)
+                self._bullet_list.append(bullet)
 
 
     def new_bullet(self):
@@ -73,11 +78,6 @@ class Towers(arcade.Sprite):
         return self._bullet_list
 
 
-    def on_mouse_pressed(self):
-        pass
-
-    def on_mouse_motion(self):
-        pass
-
-    def on_mouse_released(self):
-        pass
+    def draw_radius(self):
+        if self.selected:
+            arcade.draw_circle_filled(self.center_x,self.center_y, self.attack_range,(119, 243, 79, 50))

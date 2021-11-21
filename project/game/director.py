@@ -11,13 +11,7 @@ class Director(arcade.Window):
         # Call the parent class and set up the window
         super().__init__(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, constants.SCREEN_TITLE)
 
-        # # These are 'lists' that keep track of our sprites. Each sprite should
-        # # go into a list.
-        # self.wall_list = None
-        # self.player_list = None
 
-        # # Separate variable that holds the player sprite
-        # self.player_sprite = None
         self.n = 1
 
         self.bol = None
@@ -26,6 +20,7 @@ class Director(arcade.Window):
         self.enemy_list = []
         self.background = None # arcade.texture("project/game/images/map_one.png")
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
+        self.menu_options = []
 
         # Side bar list
         self.cards_list = None
@@ -52,11 +47,15 @@ class Director(arcade.Window):
         self.wizard_list = arcade.SpriteList()
         self.wizard_list.append(self.wizard)
 
+
+        # Create menu menu_options
+        self.menu_options = arcade.SpriteList()
+        self.menu_options.append(Wizard())
+
         # Load texture
         self.background =arcade.load_texture("project/game/images/map_one.png")
 
-        # for i in range(10):
-        #     self.add_enemy(2,Zombie())
+
         
         # List of cards we are dragging with the mouse
         self.held_cards = []
@@ -73,6 +72,7 @@ class Director(arcade.Window):
             pile.position = 0, constants.BOTTOM_Y + i * constants.Y_SPACING
             self.pile_mat_list.append(pile)
         
+
         
 
 
@@ -86,6 +86,7 @@ class Director(arcade.Window):
         self.pile_mat_list.draw()
 
         if len(self.held_cards) > 0:
+            self.held_cards[0].draw_radius()
             self.held_cards[0].draw()
 
         self.enemy_list.draw()
@@ -97,11 +98,6 @@ class Director(arcade.Window):
         w = constants.SCREEN_WIDTH - 1
         h = constants.SCREEN_HEIGHT - 1
         n = 1
-        # for x in range(20, w, 20):
-        #      arcade.draw_line(x, 0, x, h, arcade.color.RED)
-
-        # for y in range(20, h,20):
-        #     arcade.draw_line(0, y, w, y,arcade.color.RED)
 
     def on_update(self, delta_time):
 
@@ -134,12 +130,13 @@ class Director(arcade.Window):
 
     def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
 
-        towers = arcade.get_sprites_at_point((x,y),self.wizard_list)
+        towers = arcade.get_sprites_at_point((x,y),self.menu_options)
 
         if len(towers) > 0:
             tower = Wizard()
 
             self.held_cards = [tower]
+            tower.selected = True
             
             # Save the position
             self.held_cards_original_position = [self.held_cards[0].position]
@@ -157,18 +154,14 @@ class Director(arcade.Window):
             # For each held card, move it to the pile we dropped on
             for i, dropped_card in enumerate(self.held_cards):
                 # Move cards to proper position
-                dropped_card.position = pile.center_x, pile.center_y
+                dropped_card.position = x, y
+                dropped_card.selected = False
                 self.wizard_list.append(dropped_card)
+                
                 
             # Success, don't reset position of cards
             reset_position = False
-        # if reset_position:
-        #     # Where-ever we were dropped, it wasn't valid. Reset the each card's position
-        #     # to its original spot.
-        #     for pile_index, card in enumerate(self.held_cards):
-        #         card.position = self.held_cards_original_position[pile_index]
 
-        # We are no longer holding cards
         self.held_cards = []
 
 

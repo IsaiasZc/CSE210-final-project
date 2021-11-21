@@ -47,7 +47,8 @@ class Director(arcade.Window):
         self.wizard_list = arcade.SpriteList()
         self.wizard_list.append(self.wizard)
 
-
+        self.max_enemies = 20
+        self.enemies_in_map = 0
         # Create menu menu_options
         self.menu_options = arcade.SpriteList()
         self.menu_options.append(Wizard())
@@ -55,7 +56,7 @@ class Director(arcade.Window):
         # Load texture
         self.background =arcade.load_texture("project/game/images/map_one.png")
 
-
+        arcade.schedule(self.add_enemy,1)
         
         # List of cards we are dragging with the mouse
         self.held_cards = []
@@ -103,11 +104,15 @@ class Director(arcade.Window):
 
         # self.bol.update()
         # self.bol.move()
-        maxi = 240
-        self.n += 1
-        if self.n % 60 ==0 and self.n <= maxi:
-            self.add_enemy(3,Zombie())
+        # maxi = 240
+        # self.n += 1
+        # if self.n % 60 ==0 and self.n <= maxi:
+        #     self.add_enemy(3,Zombie())
         
+        if self.enemies_in_map > self.max_enemies:
+            arcade.unschedule(self.add_enemy)
+
+
         self.enemy_list.update()
         for enemy in self.enemy_list:
             enemy.move()
@@ -115,9 +120,8 @@ class Director(arcade.Window):
         self.wizard_list.update()
         # self.wizard.tower_atack(self.bol)
         for wizard in self.wizard_list:
+            wizard.tower_atack(self.enemy_list)
             wizard.update_bullet()
-            for enemy in self.enemy_list:
-                wizard.tower_atack(enemy)
         
         for player in self.wizard_list:
             for bullet in player.get_bullet_list():
@@ -177,6 +181,7 @@ class Director(arcade.Window):
 
 
     
-    def add_enemy(self,delta_time: float,enemy):
-        self.enemy_list.append(enemy)
+    def add_enemy(self, delta_time: float):
+        self.enemies_in_map += 1
+        self.enemy_list.append(Zombie())
         

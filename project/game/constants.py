@@ -8,6 +8,10 @@ SCREEN_TITLE = "TowerDefense Alpha"
 # The path forr he enemies
 SCREEN_PATH = [[600,820],[600,720],[230,720],[230,220],[790,220],[790,520],[610,520],[610,340],[410,340],[410,620],[970,620],[970,110],[620,110],[620,-10]]
 
+#The Width and Height for the side menu_options
+SIDE_MENU_WIDTH = 100
+SIDE_MENU_HEIGHT = 650
+
 
 CARD_SCALE = 0.8
 

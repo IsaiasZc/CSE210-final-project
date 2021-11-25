@@ -1,14 +1,16 @@
 import arcade
+from arcade.sprite_list.sprite_list import SpriteList
 from game import constants
+import copy
 
-class SideMeru():
+class SideMenu():
 
     def __init__(self):
         """Declare the side meru class to store the differents 
         menu options like, choose the characters
         """
         
-        # There are two possible ways:
+        # TODO: There are two possible ways:
         # 1.- Store the Class Directly
         # 2.- Store an array [ Class, "name of tower"]
         self._menu_options = []
@@ -27,18 +29,18 @@ class SideMeru():
 
     def reset_panel(self):
         """Create the new menu panel and return it to work with it."""
-        self._menu_options = []
-        self._held_towers = []
-        self._menu_panel = []
+        self._menu_options = arcade.SpriteList()
+        self._held_towers = arcade.SpriteList()
+        self._menu_panel = arcade.SpriteList()
         self._held_towers_original_position = []
-
-        panel = arcade.SpriteSolidColor(constants.SIDE_MENU_HEIGHT,constants.SIDE_MENU_WIDTH,arcade.csscolor.AQUA)
-        panel.position = constants.SIDE_MENU_WIDTH / 2, constants.SCREEN_WIDTH / 2
+        panel = arcade.SpriteSolidColor(constants.SIDE_MENU_WIDTH,constants.SIDE_MENU_HEIGHT,arcade.csscolor.CHOCOLATE)
+        panel.position = constants.SIDE_MENU_WIDTH / 2, constants.SCREEN_HEIGHT / 2
         self._menu_panel.append(panel)
 
 
         return self._menu_panel
-    
+
+
     def draw_held_towers(self):
         """This method will help us to draw the held tower by the player while is been dragging.
         
@@ -48,6 +50,16 @@ class SideMeru():
         if len(self._held_towers) > 0:
             self._held_towers[0].draw_radius()
             self._held_towers[0].draw()
+
+    def draw_panel(self):
+        """draw the panel"""    
+        self._menu_panel.draw()
+    
+    def set_menu_options(self, options_list):
+
+        for object in options_list:
+            self._menu_options.append(object)
+
 
     def on_mouse_press(self, x, y):
         """Recognize when the player has press a tower to drag it
@@ -63,7 +75,7 @@ class SideMeru():
         # duplicate to drag.
         if len(towers) > 0:
             #Create the new tower
-            new_tower = towers[0]
+            new_tower = copy.deepcopy(towers[0])
 
             self._held_towers = [new_tower]
             new_tower.selected = True
@@ -86,9 +98,21 @@ class SideMeru():
         # For now, we don't have a collision detection to know
         # where the player can site the tower.
 
+        if len(self._held_towers) == 0:
+            return
+
+        # recognize if the player is releasing the tower over the panel
+        in_panel = arcade.check_for_collision_with_list(self._held_towers[0],self._menu_panel)
+
+        # If the tower is relased in the panel, delete it
+        if len(in_panel) > 0:
+            self._held_towers.clear()
+
         # For each held tower, set it in the map.
         for dropped_tower in self._held_towers:
             # Drop the card in the mouse position.
             dropped_tower.position = x, y
             dropped_tower.selected = False
             towers_list.append(dropped_tower)
+        
+        self._held_towers.clear()

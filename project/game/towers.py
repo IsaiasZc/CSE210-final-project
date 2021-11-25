@@ -71,8 +71,6 @@ class Towers(arcade.Sprite):
 
                 angle = math.atan2(dif_y, dif_x)
 
-
-
                 bullet = self.new_bullet()
                 bullet.angle = math.degrees(angle)
 

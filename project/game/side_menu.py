@@ -17,26 +17,32 @@ class SideMeru():
         self._held_towers =  []
 
         # The menu Sprite with its size, color, position
-        self.menu_panel = []
+        self._menu_panel = []
 
         # Original location of cards we are dragging with the mouse in case
         # they have to go back.
         self._held_towers_original_position = []
 
-        # start the menu_panel
+        # start the _menu_panel
 
-    def set_new_panel(self):
+    def reset_panel(self):
         """Create the new menu panel and return it to work with it."""
+        self._menu_options = []
+        self._held_towers = []
+        self._menu_panel = []
+        self._held_towers_original_position = []
+
         panel = arcade.SpriteSolidColor(constants.SIDE_MENU_HEIGHT,constants.SIDE_MENU_WIDTH,arcade.csscolor.AQUA)
         panel.position = constants.SIDE_MENU_WIDTH / 2, constants.SCREEN_WIDTH / 2
-        self.menu_panel.append(panel)
+        self._menu_panel.append(panel)
 
-        return self.menu_panel
+
+        return self._menu_panel
     
     def draw_held_towers(self):
         """This method will help us to draw the held tower by the player while is been dragging.
         
-        Attr.
+        Args.
             self : the SideMenu class.
         """
         if len(self._held_towers) > 0:
@@ -46,7 +52,7 @@ class SideMeru():
     def on_mouse_press(self, x, y):
         """Recognize when the player has press a tower to drag it
         
-        Attr.
+        Args.
             self: The SideMenu class.
             x : the x coordinate of the mouse.
             y . the y coordinate of the mouse.
@@ -65,8 +71,24 @@ class SideMeru():
             # Save the original position
             self._held_towers_original_position = [self._held_towers[0].position]
 
-    def on_mouse_motion(self, x, y):
+    def on_mouse_motion(self, dx, dy):
         """Recognize when the user move the mouse and drag the tower
         if there is a tower in the held cards list.
 
         """
+        for tower in self._held_towers:
+            tower.center_x += dx
+            tower.center_y += dy
+
+    def on_mouse_release(self, towers_list, x, y):
+        """"""
+
+        # For now, we don't have a collision detection to know
+        # where the player can site the tower.
+
+        # For each held tower, set it in the map.
+        for dropped_tower in self._held_towers:
+            # Drop the card in the mouse position.
+            dropped_tower.position = x, y
+            dropped_tower.selected = False
+            towers_list.append(dropped_tower)

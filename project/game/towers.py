@@ -18,7 +18,8 @@ class Towers(arcade.Sprite):
         self.fire_rate = 1
 
         self.selected = False
-
+        # How many enemies are in range
+        self.max_enemies_attacked = None
 
     # def tower_atack(self, enemy):
 
@@ -57,7 +58,7 @@ class Towers(arcade.Sprite):
 
         # WHere the attack start
         for enemy in enemy_list:
-            if (math.dist(enemy.position, self.position) <= self.attack_range) and (self.count % self._frames == 0):
+            if self.in_range(enemy) and (self.count % self._frames == 0):
                 start_x = self.center_x
                 start_y = self.center_y
 
@@ -91,10 +92,20 @@ class Towers(arcade.Sprite):
     def set_bullet_image(self,image):
         self._bullet_image = image
 
-    def update_bullet(self):
+    def update_bullet(self,enemy_list):
         for bullet in self._bullet_list:
             if bullet.center_x < 0 or bullet.center_x > 1200 or bullet.center_y < 0 or bullet.center_y > 800:
-                bullet.remove_from_sprite_lists()
+                bullet.kill()
+                continue
+
+            for enemy in enemy_list:
+                if arcade.check_for_collision(bullet,enemy):
+                    enemy.life -= self.damage
+                    bullet.kill()
+                
+                if enemy.life <= 0:
+                    enemy.kill()
+            
             bullet.update()
 
     def draw_bullet(self):
@@ -109,3 +120,8 @@ class Towers(arcade.Sprite):
     def draw_radius(self):
         if self.selected:
             arcade.draw_circle_filled(self.center_x,self.center_y, self.attack_range,(119, 243, 79, 60))
+
+    def in_range(self, enemy):
+        return math.dist(enemy.position, self.position) <= self.attack_range
+
+    

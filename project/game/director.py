@@ -89,14 +89,17 @@ class Director(arcade.Window):
         # self.wizard.tower_atack(self.bol)
         for wizard in self.wizard_list:
             wizard.tower_atack(self.enemy_list)
-            wizard.update_bullet()
+            # *wizard.update_bullet()
+            wizard.update_bullet(self.enemy_list)
         
-        for player in self.wizard_list:
-            for bullet in player.get_bullet_list():
-                for enemy in self.enemy_list:
-                    if arcade.check_for_collision(bullet,enemy):
-                        self.enemy_list.remove(enemy)
-                        player.get_bullet_list().remove(bullet)
+        #! Don't delete it 
+
+        # for player in self.wizard_list:
+        #     for bullet in player.get_bullet_list():
+        #         for enemy in self.enemy_list:
+        #             if arcade.check_for_collision(bullet,enemy):
+        #                 self.enemy_list.remove(enemy)
+        #                 player.get_bullet_list().remove(bullet)
 
 
 

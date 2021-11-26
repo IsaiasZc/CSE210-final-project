@@ -16,3 +16,7 @@ class Wizard(Towers):
         self.center_x, self.center_y = [constants.SIDE_MENU_WIDTH / 2, constants.SCREEN_HEIGHT / 2]
 
         self.attack_range = 100
+
+        self.damage = 20
+
+        self.max_enemies_attacked = 1

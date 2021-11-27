@@ -19,4 +19,4 @@ class Wizard(Towers):
 
         self.damage = 20
 
-        self.max_attacked = 2
+        self.max_attacked = 1

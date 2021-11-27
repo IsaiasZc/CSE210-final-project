@@ -12,6 +12,9 @@ class Enemies(arcade.Sprite):
         self._life = None
         self._speed = None
 
+        # Know when is been attacked
+        self.focus = False
+
         self.change_x = 0
         self.change_y = -1
 

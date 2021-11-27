@@ -113,6 +113,7 @@ class SideMenu():
             # Drop the card in the mouse position.
             dropped_tower.position = x, y
             dropped_tower.selected = False
+            dropped_tower.in_panel = False
             towers_list.append(dropped_tower)
         
         self._held_towers.clear()

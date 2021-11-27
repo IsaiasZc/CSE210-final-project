@@ -70,36 +70,20 @@ class Director(arcade.Window):
 
     def on_update(self, delta_time):
 
-        # self.bol.update()
-        # self.bol.move()
-        # maxi = 240
-        # self.n += 1
-        # if self.n % 60 ==0 and self.n <= maxi:
-        #     self.add_enemy(3,Zombie())
-        
         if self.enemies_in_map > self.max_enemies:
             arcade.unschedule(self.add_enemy)
 
 
+
+        self.wizard_list.update()
+        for wizard in self.wizard_list:
+            wizard.on_update(delta_time,self.enemy_list)
+            wizard.update_bullet(self.enemy_list)
+        
         self.enemy_list.update()
         for enemy in self.enemy_list:
             enemy.move()
 
-        self.wizard_list.update()
-        # self.wizard.tower_atack(self.bol)
-        for wizard in self.wizard_list:
-            wizard.tower_atack(self.enemy_list)
-            # *wizard.update_bullet()
-            wizard.update_bullet(self.enemy_list)
-        
-        #! Don't delete it 
-
-        # for player in self.wizard_list:
-        #     for bullet in player.get_bullet_list():
-        #         for enemy in self.enemy_list:
-        #             if arcade.check_for_collision(bullet,enemy):
-        #                 self.enemy_list.remove(enemy)
-        #                 player.get_bullet_list().remove(bullet)
 
 
 

@@ -199,9 +199,14 @@
 # if __name__ == "__main__":
 #     main()
 
-import math
+# import math
 
-a = [3,9]
-b = [3,15]
+# a = [3,9]
+# b = [3,15]
 
-print(math.dist(a,b))
+# print(math.dist(a,b))
+
+a = -1
+
+if a < 1:
+    print("vamos we")

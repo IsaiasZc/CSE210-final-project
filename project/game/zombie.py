@@ -13,3 +13,5 @@ class Zombie(Enemies):
         self.center_x, self.center_y = constants.SCREEN_PATH[0]
 
         self.speed = 1
+
+        self.life = 50

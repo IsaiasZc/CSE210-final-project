@@ -8,7 +8,7 @@ class Wizard(Towers):
         self._scale = 0.3
         super().__init__(self._image,self._scale)
 
-        self.fire_rate = 1
+        self.fire_rate = 0.8
         # Create the bullet
         self.set_bullet_image(":resources:images/space_shooter/laserBlue01.png")
         self.bullet_speed = 3
@@ -16,3 +16,7 @@ class Wizard(Towers):
         self.center_x, self.center_y = [constants.SIDE_MENU_WIDTH / 2, constants.SCREEN_HEIGHT / 2]
 
         self.attack_range = 100
+
+        self.damage = 20
+
+        self.max_attacked = 1

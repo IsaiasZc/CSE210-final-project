@@ -4,8 +4,8 @@ from game import constants
 class Wizard(Towers):
 
     def __init__(self):
-        self._image = ":resources:images/animated_characters/robot/robot_walk0.png"
-        self._scale = 0.5
+        self._image = "project/game/images/wizard.png"
+        self._scale = 0.3
         super().__init__(self._image,self._scale)
 
         self.fire_rate = 0.8

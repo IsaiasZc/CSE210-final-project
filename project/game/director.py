@@ -3,6 +3,7 @@ from game import constants
 from game.zombie import Zombie
 from game.wizard import Wizard
 from game.side_menu import SideMenu
+from game.enemies import Enemies
 
 class Director(arcade.View):
     """The director of the game"""
@@ -73,19 +74,26 @@ class Director(arcade.View):
 
         if self.enemies_in_map > self.max_enemies:
             arcade.unschedule(self.add_enemy)
-
-
-
-        self.wizard_list.update()
-        for wizard in self.wizard_list:
-            wizard.on_update(delta_time,self.enemy_list)
-            wizard.update_bullet(self.enemy_list)
         
         self.enemy_list.update()
         for enemy in self.enemy_list:
             enemy.move()
 
+        self.wizard_list.update()
+        for wizard in self.wizard_list:
+            wizard.on_update(delta_time,self.enemy_list)
+            wizard.update_bullet(self.enemy_list)
+            self.enemy_list.pop()
 
+        # self.enemy_list.update()
+        # for enemy in self.enemy_list:
+        #     if Zombie.center_x > constants.SCREEN_WIDTH and Zombie.center_y > constants.SCREEN_HEIGHT:
+        #         view = GameOverView()
+        #         self.window.show_view(view)
+
+        if self.enemy_list is None:
+            view = GameOverView()
+            self.window.show_view(view) 
 
 
     def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
@@ -127,6 +135,30 @@ class InstructionView(arcade.View):
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         """ If the user presses the mouse button, start the game. """
+        game_view = Director()
+        game_view.setup()
+        self.window.show_view(game_view)
+
+class GameOverView(arcade.View):
+    """ View to show when game is over """
+
+    def __init__(self):
+        """ This is run once when we switch to this view """
+        super().__init__()
+        self.texture = arcade.load_texture("project/game/images/game_over_1.png")
+
+        # Reset the viewport, necessary if we have a scrolling game and we need
+        # to reset the viewport back to the start so we can see what we draw.
+        arcade.set_viewport(0, constants.SCREEN_WIDTH - 1, 0, constants.SCREEN_HEIGHT - 1)
+
+    def on_draw(self):
+        """ Draw this view """
+        arcade.start_render()
+        self.texture.draw_sized(constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2,
+                                constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
+
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        """ If the user presses the mouse button, re-start the game. """
         game_view = Director()
         game_view.setup()
         self.window.show_view(game_view)

@@ -37,7 +37,6 @@ class Towers(arcade.Sprite):
         self.max_been_attacked = []
         self._time_since_last_attack = 0
         self.in_panel = True
-        self.name = ""
 
     def tower_atack(self, enemy_list):
 

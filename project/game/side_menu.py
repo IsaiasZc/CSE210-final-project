@@ -2,6 +2,7 @@ import arcade
 from arcade.sprite_list.sprite_list import SpriteList
 from game import constants
 import copy
+from game.wizard import Wizard
 
 class SideMenu():
 
@@ -75,7 +76,7 @@ class SideMenu():
         # duplicate to drag.
         if len(towers) > 0:
             #Create the new tower
-            new_tower = copy.deepcopy(towers[0])
+            new_tower = self.create_tower(towers[0]) #? this could be another way copy.deepcopy(towers[0])
 
             self._held_towers = [new_tower]
             new_tower.selected = True
@@ -117,3 +118,10 @@ class SideMenu():
             towers_list.append(dropped_tower)
         
         self._held_towers.clear()
+    
+    def create_tower(self,tower):
+        """create a tower similar to the clicked"""
+
+        if tower.name == "wizard":
+            return Wizard()
+        

@@ -20,3 +20,5 @@ class Wizard(Towers):
         self.damage = 20
 
         self.max_attacked = 1
+
+        self.name = "wizard"

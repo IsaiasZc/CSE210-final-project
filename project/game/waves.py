@@ -75,4 +75,4 @@ class Waves():
             return Zombie()
     
     def end_wave(self):
-        return self.max_enemies_in_wave == self.enemies_counter and len(self.enemies_list) == 0
+        return self.max_enemies_in_wave == self.enemies_counter and len(self.enemies_in_wave) == 0

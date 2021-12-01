@@ -78,8 +78,10 @@ class Director(FadingView):
 
         if self.enemies_in_map > self.max_enemies:
             arcade.unschedule(self.add_enemy)
-
-
+        
+        self.enemy_list.update()
+        for enemy in self.enemy_list:
+            enemy.move()
 
         self.wizard_list.update()
         for wizard in self.wizard_list:
@@ -91,7 +93,15 @@ class Director(FadingView):
         for enemy in self.enemy_list:
             enemy.move()
 
+        # self.enemy_list.update()
+        # for enemy in self.enemy_list:
+        #     if Zombie.center_x > constants.SCREEN_WIDTH and Zombie.center_y > constants.SCREEN_HEIGHT:
+        #         view = GameOverView()
+        #         self.window.show_view(view)
 
+        if self.enemy_list is None:
+            view = GameOverView()
+            self.window.show_view(view) 
 
 
     def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):

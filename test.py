@@ -46,7 +46,7 @@ class MenuView(FadingView):
     """ Class that manages the 'menu' view. """
 
     def on_update(self, dt):
-        self.update_fade(next_view=GameView)
+        self.update_fade(next_view=InstructionView)
 
     def on_show(self):
         """ Called when switching to this view"""
@@ -70,6 +70,33 @@ class MenuView(FadingView):
         # Replace 'pass' with the code to set up your game
         pass
 
+class InstructionView(FadingView):
+    """ View to show instructions """
+
+    def on_update(self, dt):
+        self.update_fade(next_view=GameView)
+
+    def on_show(self):
+        """ Called when switching to this view"""
+        arcade.set_background_color(arcade.color.WHITE)
+
+    def on_draw(self):
+        """ Draw the menu """
+        arcade.start_render()
+        arcade.draw_text("Instructions Screen - press space to advance", WIDTH / 2, HEIGHT / 2,
+                         arcade.color.BLUE, font_size=30, anchor_x="center")
+        self.draw_fading()
+
+    def on_key_press(self, key, _modifiers):
+        """ Handle key presses. In this case, we'll just count a 'space' as
+        game over and advance to the game over view. """
+        if self.fade_out is None and key == arcade.key.SPACE:
+            self.fade_out = 0
+
+    def setup(self):
+        """ This should set up your game and get it ready to play """
+        # Replace 'pass' with the code to set up your game
+        pass
 
 class GameView(FadingView):
     """ Manage the 'game' view for our program. """

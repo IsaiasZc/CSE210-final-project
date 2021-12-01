@@ -1,111 +1,166 @@
-# import random
-# import arcade
+"""
+Example showing how to do transitions between views.
+"""
 
-# # --- Constants ---
-# SPRITE_SCALING_PLAYER = 0.5
-# SPRITE_SCALING_COIN = .25
-# COIN_COUNT = 50
-
-# SCREEN_WIDTH = 800
-# SCREEN_HEIGHT = 600
-# SCREEN_TITLE = "Implement Views Example"
+import arcade
 
 
-# class GameView(arcade.View):
-#     """ Our custom Window Class"""
+WIDTH = 1200
+HEIGHT = 800
 
-#     def __init__(self):
-#         """ Initializer """
-#         # Call the parent class initializer
-#         super().__init__()
-
-#         # Variables that will hold sprite lists
-#         self.player_list = None
-#         self.coin_list = None
-
-#         # Set up the player info
-#         self.player_sprite = None
-#         self.score = 0
-
-#         # Don't show the mouse cursor
-#         self.window.set_mouse_visible(False)
-
-#         arcade.set_background_color(arcade.color.AMAZON)
-
-#     def setup(self):
-#         """ Set up the game and initialize the variables. """
-
-#         # Sprite lists
-#         self.player_list = arcade.SpriteList()
-#         self.coin_list = arcade.SpriteList()
-
-#         # Score
-#         self.score = 0
-
-#         # Set up the player
-#         # Character image from kenney.nl
-#         self.player_sprite = arcade.Sprite(":resources:images/animated_characters/female_person/femalePerson_idle.png",
-#                                            SPRITE_SCALING_PLAYER)
-#         self.player_sprite.center_x = 50
-#         self.player_sprite.center_y = 50
-#         self.player_list.append(self.player_sprite)
-
-#         # Create the coins
-#         for i in range(COIN_COUNT):
-
-#             # Create the coin instance
-#             # Coin image from kenney.nl
-#             coin = arcade.Sprite(":resources:images/items/coinGold.png",
-#                                  SPRITE_SCALING_COIN)
-
-#             # Position the coin
-#             coin.center_x = random.randrange(SCREEN_WIDTH)
-#             coin.center_y = random.randrange(SCREEN_HEIGHT)
-
-#             # Add the coin to the lists
-#             self.coin_list.append(coin)
-
-#     def on_draw(self):
-#         """ Draw everything """
-#         arcade.start_render()
-#         self.coin_list.draw()
-#         self.player_list.draw()
-
-#         # Put the text on the screen.
-#         output = f"Score: {self.score}"
-#         arcade.draw_text(output, 10, 20, arcade.color.WHITE, 14)
-
-#     def on_mouse_motion(self, x, y, dx, dy):
-#         """ Handle Mouse Motion """
-
-#         # Move the center of the player sprite to match the mouse x, y
-#         self.player_sprite.center_x = x
-#         self.player_sprite.center_y = y
-
-#     def on_update(self, delta_time):
-#         """ Movement and game logic """
-
-#         # Call update on all sprites (The sprites don't do much in this
-#         # example though.)
-#         self.coin_list.update()
-
-#         # Generate a list of all sprites that collided with the player.
-#         coins_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.coin_list)
-
-#         # Loop through each colliding sprite, remove it, and add to the score.
-#         for coin in coins_hit_list:
-#             coin.remove_from_sprite_lists()
-#             self.score += 1
+FADE_RATE = 5
 
 
-# def main():
-#     """ Main function """
+class FadingView(arcade.View):
+    def __init__(self):
+        super().__init__()
+        self.fade_out = None
+        self.fade_in = 255
 
-#     window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-#     start_view = GameView()
-#     window.show_view(start_view)
-#     start_view.setup()
-#     arcade.run()
+    def update_fade(self, next_view=None):
+        if self.fade_out is not None:
+            self.fade_out += FADE_RATE
+            if self.fade_out is not None and self.fade_out > 255 and next_view is not None:
+                game_view = next_view()
+                game_view.setup()
+                self.window.show_view(game_view)
 
-# if __name__ == "__main__":
+        if self.fade_in is not None:
+            self.fade_in -= FADE_RATE
+            if self.fade_in <= 0:
+                self.fade_in = None
 
+    def draw_fading(self):
+        if self.fade_out is not None:
+            arcade.draw_rectangle_filled(self.window.width / 2, self.window.height / 2,
+                                         self.window.width, self.window.height,
+                                         (0, 0, 0, self.fade_out))
+
+        if self.fade_in is not None:
+            arcade.draw_rectangle_filled(self.window.width / 2, self.window.height / 2,
+                                         self.window.width, self.window.height,
+                                         (0, 0, 0, self.fade_in))
+
+
+class MenuView(FadingView):
+    """ Class that manages the 'menu' view. """
+
+    def on_update(self, dt):
+        self.update_fade(next_view=InstructionView)
+
+    def on_show(self):
+        """ Called when switching to this view"""
+        arcade.set_background_color(arcade.color.WHITE)
+
+    def on_draw(self):
+        """ Draw the menu """
+        arcade.start_render()
+        arcade.draw_text("Menu Screen - press space to advance", WIDTH / 2, HEIGHT / 2,
+                         arcade.color.BLACK, font_size=30, anchor_x="center")
+        self.draw_fading()
+
+    def on_key_press(self, key, _modifiers):
+        """ Handle key presses. In this case, we'll just count a 'space' as
+        game over and advance to the game over view. """
+        if self.fade_out is None and key == arcade.key.SPACE:
+            self.fade_out = 0
+
+    def setup(self):
+        """ This should set up your game and get it ready to play """
+        # Replace 'pass' with the code to set up your game
+        pass
+
+class InstructionView(FadingView):
+    """ View to show instructions """
+
+    def on_update(self, dt):
+        self.update_fade(next_view=GameView)
+
+    def on_show(self):
+        """ Called when switching to this view"""
+        arcade.set_background_color(arcade.color.WHITE)
+
+    def on_draw(self):
+        """ Draw the menu """
+        arcade.start_render()
+        arcade.draw_text("Instructions Screen - press space to advance", WIDTH / 2, HEIGHT / 2,
+                         arcade.color.BLUE, font_size=30, anchor_x="center")
+        self.draw_fading()
+
+    def on_key_press(self, key, _modifiers):
+        """ Handle key presses. In this case, we'll just count a 'space' as
+        game over and advance to the game over view. """
+        if self.fade_out is None and key == arcade.key.SPACE:
+            self.fade_out = 0
+
+    def setup(self):
+        """ This should set up your game and get it ready to play """
+        # Replace 'pass' with the code to set up your game
+        pass
+
+class GameView(FadingView):
+    """ Manage the 'game' view for our program. """
+
+    def setup(self):
+        """ This should set up your game and get it ready to play """
+        # Replace 'pass' with the code to set up your game
+        pass
+
+    def on_update(self, dt):
+        self.update_fade(next_view=GameOverView)
+
+    def on_show(self):
+        """ Called when switching to this view"""
+        arcade.set_background_color(arcade.color.ORANGE_PEEL)
+
+    def on_draw(self):
+        """ Draw everything for the game. """
+        arcade.start_render()
+        arcade.draw_text("Game - press SPACE to advance", WIDTH / 2, HEIGHT / 2,
+                         arcade.color.BLACK, font_size=30, anchor_x="center")
+        self.draw_fading()
+
+    def on_key_press(self, key, _modifiers):
+        """ Handle keypresses. In this case, we'll just count a 'space' as
+        game over and advance to the game over view. """
+        if key == arcade.key.SPACE:
+            self.fade_out = 0
+
+
+class GameOverView(FadingView):
+    """ Class to manage the game over view """
+    def on_update(self, dt):
+        self.update_fade(next_view=MenuView)
+
+    def on_show(self):
+        """ Called when switching to this view"""
+        arcade.set_background_color(arcade.color.BLACK)
+
+    def on_draw(self):
+        """ Draw the game over view """
+        arcade.start_render()
+        arcade.draw_text("Game Over - press SPACE to advance", WIDTH / 2, HEIGHT / 2,
+                         arcade.color.WHITE, 30, anchor_x="center")
+        self.draw_fading()
+
+    def on_key_press(self, key, _modifiers):
+        """ If user hits escape, go back to the main menu view """
+        if key == arcade.key.SPACE:
+            self.fade_out = 0
+
+    def setup(self):
+        """ This should set up your game and get it ready to play """
+        # Replace 'pass' with the code to set up your game
+        pass
+
+
+def main():
+    """ Startup """
+    window = arcade.Window(WIDTH, HEIGHT, "Different Views Minimal Example")
+    menu_view = MenuView()
+    window.show_view(menu_view)
+    arcade.run()
+
+
+if __name__ == "__main__":
+    main()

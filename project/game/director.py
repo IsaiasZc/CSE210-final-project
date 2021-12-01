@@ -3,8 +3,9 @@ from game import constants
 from game.zombie import Zombie
 from game.wizard import Wizard
 from game.side_menu import SideMenu
+from game.fading_view import FadingView
 
-class Director(arcade.View):
+class Director(FadingView):
     """The director of the game"""
 
     def __init__(self):
@@ -25,6 +26,9 @@ class Director(arcade.View):
 
         # * the first attempt to insert the side menu Class
         self.side_menu = SideMenu()
+        self.wizard_sound = arcade.load_sound("project/game/sounds/wizard_attack.mp3")
+        self.hit_sound = arcade.load_sound(":resources:sounds/hit5.wav")
+        self.click_sound = arcade.load_sound("project/game/sounds/click_1.mp3")
 
     def setup(self):
 
@@ -62,6 +66,7 @@ class Director(arcade.View):
         self.enemy_list.draw()
         for wizard in self.wizard_list:
             wizard.draw_bullet()
+            
         # self.wizard.draw_bullet()
         self.wizard_list.draw()
         # Draw a grid s
@@ -80,6 +85,7 @@ class Director(arcade.View):
         for wizard in self.wizard_list:
             wizard.on_update(delta_time,self.enemy_list)
             wizard.update_bullet(self.enemy_list)
+            
         
         self.enemy_list.update()
         for enemy in self.enemy_list:
@@ -89,7 +95,10 @@ class Director(arcade.View):
 
 
     def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
+        
         self.side_menu.on_mouse_press(x,y)
+        arcade.play_sound(self.click_sound)
+            
 
 
     def on_mouse_release(self, x: float, y: float, button: int, modifiers: int):
@@ -105,28 +114,85 @@ class Director(arcade.View):
         self.enemies_in_map += 1
         self.enemy_list.append(Zombie())
         
+# Different views
+class MenuView(FadingView):
+    """ Class that manages the 'menu' view. """
 
-class InstructionView(arcade.View):
-    """ View to show instructions """
+    def on_update(self, dt):
+        self.update_fade(next_view=InstructionView)
 
     def on_show(self):
-        """ This is run once when we switch to this view """
-        arcade.set_background_color(arcade.csscolor.DARK_SLATE_BLUE)
+        """ Called when switching to this view"""
+        arcade.set_background_color(arcade.color.WHITE)
 
-        # Reset the viewport, necessary if we have a scrolling game and we need
-        # to reset the viewport back to the start so we can see what we draw.
-        # arcade.set_viewport(0, self.window.width, 0, self.window.height)
-    
     def on_draw(self):
-        """ Draw this view """
+        """ Draw the menu """
         arcade.start_render()
-        arcade.draw_text("Instructions Screen", self.window.width / 2, self.window.height / 2,
-                         arcade.color.WHITE, font_size=50, anchor_x="center")
-        arcade.draw_text("Click to advance", self.window.width / 2, self.window.height / 2-75,
-                         arcade.color.WHITE, font_size=20, anchor_x="center")
+        arcade.draw_text("Menu Screen - press space to advance", constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2,
+                         arcade.color.BLACK, font_size=30, anchor_x="center")
+        self.draw_fading()
 
-    def on_mouse_press(self, _x, _y, _button, _modifiers):
-        """ If the user presses the mouse button, start the game. """
-        game_view = Director()
-        game_view.setup()
-        self.window.show_view(game_view)
+    def on_key_press(self, key, _modifiers):
+        """ Handle key presses. In this case, we'll just count a 'space' as
+        game over and advance to the game over view. """
+        if self.fade_out is None and key == arcade.key.SPACE:
+            self.fade_out = 0
+
+    def setup(self):
+        """ This should set up your game and get it ready to play """
+        # Replace 'pass' with the code to set up your game
+        pass
+
+class InstructionView(FadingView):
+    """ View to show instructions """
+
+    def on_update(self, dt):
+        self.update_fade(next_view=Director)
+
+    def on_show(self):
+        """ Called when switching to this view"""
+        arcade.set_background_color(arcade.color.WHITE)
+
+    def on_draw(self):
+        """ Draw the menu """
+        arcade.start_render()
+        arcade.draw_text("Instructions Screen - press space to advance", constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2,
+                         arcade.color.BLUE, font_size=30, anchor_x="center")
+        self.draw_fading()
+
+    def on_key_press(self, key, _modifiers):
+        """ Handle key presses. In this case, we'll just count a 'space' as
+        game over and advance to the game over view. """
+        if self.fade_out is None and key == arcade.key.SPACE:
+            self.fade_out = 0
+
+    def setup(self):
+        """ This should set up your game and get it ready to play """
+        # Replace 'pass' with the code to set up your game
+        pass
+
+class GameOverView(FadingView):
+    """ Class to manage the game over view """
+    def on_update(self, dt):
+        self.update_fade(next_view=MenuView)
+
+    def on_show(self):
+        """ Called when switching to this view"""
+        arcade.set_background_color(arcade.color.BLACK)
+
+    def on_draw(self):
+        """ Draw the game over view """
+        arcade.start_render()
+        arcade.draw_text("Game Over - press SPACE to advance", constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2,
+                         arcade.color.WHITE, 30, anchor_x="center")
+        self.draw_fading()
+
+    def on_key_press(self, key, _modifiers):
+        """ If user hits escape, go back to the main menu view """
+        if key == arcade.key.SPACE:
+            self.fade_out = 0
+
+    def setup(self):
+        """ This should set up your game and get it ready to play """
+        # Replace 'pass' with the code to set up your game
+        pass

@@ -106,7 +106,7 @@ class Director(FadingView):
         #         view = GameOverView()
         #         self.window.show_view(view)
 
-        if self.wave.wave_life is None:
+        if self.waves.wave_life is None:
             view = GameOverView()
             self.window.show_view(view) 
 

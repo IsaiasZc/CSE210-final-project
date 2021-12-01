@@ -48,7 +48,6 @@ class Waves():
         for enemy in self.enemies_in_wave:
             enemy.move()
         
-        print(self.enemies_counter)
 
     def add_point(self):
         pass

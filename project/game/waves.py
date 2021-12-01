@@ -7,7 +7,7 @@ import math
 class Waves():
 
     def __init__(self):
-        """The class constructor."""
+        """The class constructor. """
 
         self.wave_number = 0
         self.max_enemies_in_wave = 10

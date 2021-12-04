@@ -3,6 +3,7 @@ from game import constants
 from game.zombie import Zombie
 from game.wizard import Wizard
 from game.side_menu import SideMenu
+from game.waves import Waves
 from game.fading_view import FadingView
 
 class Director(FadingView):
@@ -17,14 +18,16 @@ class Director(FadingView):
 
         self.n = 1
 
-        self.bol = None
+        #* self.bol = None
         self.wizard = None
         self.wizard_list = []
-        self.enemy_list = []
+        self.waves = Waves()
+        #* self.enemy_list = []
         self.background = None # arcade.texture("project/game/images/map_one.png")
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
-        # * the first attempt to insert the side menu Class
+
+        # the first attempt to insert the side menu Class
         self.side_menu = SideMenu()
         self.background_sound = arcade.load_sound("project/game/sounds/Darkling_back_sound.mp3")
         self.wizard_sound = arcade.load_sound("project/game/sounds/wizard_attack.mp3")
@@ -33,21 +36,21 @@ class Director(FadingView):
 
     def setup(self):
 
-        
-        # self.bol = Zombie()
-        self.enemy_list = arcade.SpriteList()
+        self.waves.reset()
+        #* self.bol = Zombie()
+        #* self.enemy_list = arcade.SpriteList()
         # self.enemy_list.append(self.bol)
         self.wizard = Wizard()
         self.wizard_list = arcade.SpriteList()
         self.wizard_list.append(self.wizard)
 
-        self.max_enemies = 20
-        self.enemies_in_map = 0
+        #* self.max_enemies = 20
+        #* self.enemies_in_map = 0
 
         # Load texture
         self.background =arcade.load_texture("project/game/images/map_one.png")
 
-        arcade.schedule(self.add_enemy,1)
+        #* arcade.schedule(self.add_enemy,1)
 
         # Create the Side Menu
         self.side_menu.reset_panel()
@@ -64,7 +67,8 @@ class Director(FadingView):
         self.side_menu.draw_panel()
         self.side_menu.draw_held_towers()
 
-        self.enemy_list.draw()
+        #* self.enemy_list.draw()
+        self.waves.enemies_in_wave.draw()
         for wizard in self.wizard_list:
             wizard.draw_bullet()
             
@@ -81,22 +85,25 @@ class Director(FadingView):
 
     def on_update(self, delta_time):
 
-        if self.enemies_in_map > self.max_enemies:
-            arcade.unschedule(self.add_enemy)
+        #! Dont delete now
+        # if self.enemies_in_map > self.max_enemies:
+        #     arcade.unschedule(self.add_enemy)
         
-        self.enemy_list.update()
-        for enemy in self.enemy_list:
-            enemy.move()
+        self.waves.update_wave(delta_time)
+        if self.waves.end_wave():
+            self.waves.add_new_wave()
 
         self.wizard_list.update()
         for wizard in self.wizard_list:
-            wizard.on_update(delta_time,self.enemy_list)
-            wizard.update_bullet(self.enemy_list)
-            
-        
-        self.enemy_list.update()
-        for enemy in self.enemy_list:
-            enemy.move()
+            #* wizard.on_update(delta_time,self.enemy_list)
+            wizard.on_update(delta_time,self.waves.enemies_in_wave)
+            #* wizard.update_bullet(self.enemy_list)
+            wizard.update_bullet(self.waves.enemies_in_wave)
+
+        #* self.enemy_list.update()
+        #* for enemy in self.enemy_list:
+        #*     enemy.move()
+
 
         # self.enemy_list.update()
         # for enemy in self.enemy_list:
@@ -104,7 +111,7 @@ class Director(FadingView):
         #         view = GameOverView()
         #         self.window.show_view(view)
 
-        if self.enemy_list is None:
+        if self.waves.wave_life is None:
             view = GameOverView()
             self.window.show_view(view) 
 

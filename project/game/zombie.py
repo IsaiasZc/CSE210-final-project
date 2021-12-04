@@ -15,3 +15,5 @@ class Zombie(Enemies):
         self.speed = 1
 
         self.life = 50
+
+        self.name = "zombie"

@@ -79,10 +79,6 @@ class Director(FadingView):
         n = 1
 
     def on_update(self, delta_time):
-
-        #! Dont delete now
-        # if self.enemies_in_map > self.max_enemies:
-        #     arcade.unschedule(self.add_enemy)
         
         self.waves.update_wave(delta_time)
         if self.waves.end_wave():
@@ -93,18 +89,8 @@ class Director(FadingView):
             #* wizard.on_update(delta_time,self.enemy_list)
             wizard.on_update(delta_time,self.waves.enemies_in_wave)
             #* wizard.update_bullet(self.enemy_list)
-            wizard.update_bullet(self.waves.enemies_in_wave)
+            wizard.update_bullet(self.waves)
 
-        #* self.enemy_list.update()
-        #* for enemy in self.enemy_list:
-        #*     enemy.move()
-
-
-        # self.enemy_list.update()
-        # for enemy in self.enemy_list:
-        #     if Zombie.center_x > constants.SCREEN_WIDTH and Zombie.center_y > constants.SCREEN_HEIGHT:
-        #         view = GameOverView()
-        #         self.window.show_view(view)
 
         if self.waves.wave_life is None:
             view = GameOverView()
@@ -113,14 +99,14 @@ class Director(FadingView):
 
     def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
         
-        self.side_menu.on_mouse_press(x,y)
+        self.side_menu.on_mouse_press(x,y,self.waves.coins)
         arcade.play_sound(self.click_sound)
             
 
 
     def on_mouse_release(self, x: float, y: float, button: int, modifiers: int):
         
-        self.side_menu.on_mouse_release(self.wizard_list,x,y)
+        self.side_menu.on_mouse_release(self.wizard_list,x,y,self.waves)
 
     
     def on_mouse_motion(self,x : float, y: float, dx: float, dy: float):

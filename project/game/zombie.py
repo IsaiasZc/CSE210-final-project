@@ -17,3 +17,4 @@ class Zombie(Enemies):
         self.life = 50
 
         self.name = "zombie"
+        self.kill_coins = 1

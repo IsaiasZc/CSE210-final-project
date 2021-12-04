@@ -20,6 +20,7 @@ class Enemies(arcade.Sprite):
 
         # The enemy name
         self.name = ""
+        self.kill_coins = None
 
     def move(self):
         """Move the sprite in the path direction"""

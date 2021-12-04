@@ -50,6 +50,8 @@ class Enemies(arcade.Sprite):
                                      width=health_width,
                                      height=constants.HEALTHBAR_HEIGHT,
                                      color=arcade.color.GREEN)
+        # The enemy name
+        self.name = ""
 
     def move(self):
         """Move the sprite in the path direction"""

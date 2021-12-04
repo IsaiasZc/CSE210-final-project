@@ -26,8 +26,9 @@ class Director(FadingView):
 
         # * the first attempt to insert the side menu Class
         self.side_menu = SideMenu()
+        self.background_sound = arcade.load_sound("project/game/sounds/Darkling_back_sound.mp3")
         self.wizard_sound = arcade.load_sound("project/game/sounds/wizard_attack.mp3")
-        self.hit_sound = arcade.load_sound(":resources:sounds/hit5.wav")
+        self.hit_sound = arcade.load_sound("project/game/sounds/hit.mp3")
         self.click_sound = arcade.load_sound("project/game/sounds/click_1.mp3")
 
     def setup(self):
@@ -67,6 +68,10 @@ class Director(FadingView):
         for wizard in self.wizard_list:
             wizard.draw_bullet()
             
+        for enemy in self.enemy_list:
+            enemy.draw_health_number()
+            enemy.draw_health_bar()
+                       
         # self.wizard.draw_bullet()
         self.wizard_list.draw()
         # Draw a grid s

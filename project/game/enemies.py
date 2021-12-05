@@ -6,7 +6,7 @@ from game import constants
 class Enemies(arcade.Sprite):
     """the enemies template"""
 
-    def __init__(self, image, scale, max_health):
+    def __init__(self, image, scale):
         super().__init__(image,scale)
 
         self._life = None
@@ -18,8 +18,8 @@ class Enemies(arcade.Sprite):
         self.change_x = 0
         self.change_y = -1
 
-        self.max_health = max_health
-        self.cur_health = max_health
+        # self.max_health = max_health
+        # self.cur_health = max_health
 
     def draw_health_number(self):
         """ Draw how many hit points we have """

@@ -72,9 +72,9 @@ class Director(FadingView):
         for wizard in self.wizard_list:
             wizard.draw_bullet()
             
-        for enemy in self.enemy_list:
-            enemy.draw_health_number()
-            enemy.draw_health_bar()
+        # for enemy in self.enemy_list:
+        #     enemy.draw_health_number()
+        #     enemy.draw_health_bar()
                        
         # self.wizard.draw_bullet()
         self.wizard_list.draw()

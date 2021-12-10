@@ -17,3 +17,5 @@ class Zombie(Enemies):
         self.life = 50
 
         self.name = "zombie"
+
+        self.max_health = self.life

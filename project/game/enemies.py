@@ -9,7 +9,7 @@ class Enemies(arcade.Sprite):
     def __init__(self, image, scale):
         super().__init__(image,scale)
 
-        self._life = None
+        self.life = None
         self._speed = None
 
         # Know when is been attacked
@@ -18,24 +18,24 @@ class Enemies(arcade.Sprite):
         self.change_x = 0
         self.change_y = -1
 
-        # self.max_health = max_health
-        # self.cur_health = max_health
+        # self.life = None
+        self.max_health = self.life
 
     def draw_health_number(self):
         """ Draw how many hit points we have """
 
-        health_string = f"{self.cur_health}/{self.max_health}"
+        health_string = f"{self.max_health}/ {self.life}"
         arcade.draw_text(health_string,
                          start_x=self.center_x + constants.HEALTH_NUMBER_OFFSET_X,
                          start_y=self.center_y + constants.HEALTH_NUMBER_OFFSET_Y,
-                         font_size=12,
+                         font_size=8,
                          color=arcade.color.WHITE)
 
     def draw_health_bar(self):
         """ Draw the health bar """
 
         # Draw the 'unhealthy' background
-        if self.cur_health < self.max_health:
+        if self.life < self.max_health:
             arcade.draw_rectangle_filled(center_x=self.center_x,
                                          center_y=self.center_y + constants.HEALTHBAR_OFFSET_Y,
                                          width=constants.HEALTHBAR_WIDTH,
@@ -43,7 +43,7 @@ class Enemies(arcade.Sprite):
                                          color=arcade.color.RED)
 
         # Calculate width based on health
-        health_width = constants.HEALTHBAR_WIDTH * (self.cur_health / self.max_health)
+        health_width = constants.HEALTHBAR_WIDTH * (self.life / self.max_health)
 
         arcade.draw_rectangle_filled(center_x=self.center_x - 0.5 * (constants.HEALTHBAR_WIDTH - health_width),
                                      center_y=self.center_y - 10,
@@ -80,5 +80,5 @@ class Enemies(arcade.Sprite):
                     self.change_y = -self.speed
                 break
         
-    def update_life(self,life):
+    def updatelife(self,life):
         self.life = life

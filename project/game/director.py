@@ -72,9 +72,9 @@ class Director(FadingView):
         for wizard in self.wizard_list:
             wizard.draw_bullet()
             
-        # for enemy in self.enemy_list:
-        #     enemy.draw_health_number()
-        #     enemy.draw_health_bar()
+        for enemy in self.waves.enemies_in_wave:
+            enemy.draw_health_number()
+            enemy.draw_health_bar()
                        
         # self.wizard.draw_bullet()
         self.wizard_list.draw()
@@ -84,10 +84,6 @@ class Director(FadingView):
         n = 1
 
     def on_update(self, delta_time):
-
-        #! Dont delete now
-        # if self.enemies_in_map > self.max_enemies:
-        #     arcade.unschedule(self.add_enemy)
         
         self.waves.update_wave(delta_time)
         if self.waves.end_wave():

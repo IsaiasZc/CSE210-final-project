@@ -21,6 +21,10 @@ class Enemies(arcade.Sprite):
         # self.life = None
         self.max_health = self.life
 
+        # The enemy name
+        self.name = ""
+        self.kill_coins = None
+        
     def draw_health_number(self):
         """ Draw how many hit points we have """
 
@@ -50,9 +54,6 @@ class Enemies(arcade.Sprite):
                                      width=health_width,
                                      height=constants.HEALTHBAR_HEIGHT,
                                      color=arcade.color.GREEN)
-        # The enemy name
-        self.name = ""
-        self.kill_coins = None
 
     def move(self):
         """Move the sprite in the path direction"""

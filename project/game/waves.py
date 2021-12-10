@@ -17,15 +17,18 @@ class Waves():
         self.enemies_in_wave = arcade.SpriteList()
         self.generation_timer = 0
         self.time_between_enemies = 2
-        self.multiplayed = 1.2
+        self.multiplier = 1.1
+        self.life_multiplier = 1
+        self.coins = None
     
     def add_new_wave(self):
         """Just call this method when the last wave has ended."""
         self.wave_number += 1
         self.enemies_counter = 0
-        self.max_enemies_in_wave = math.floor(self.max_enemies_in_wave * self.multiplayed)
-        self.wave_life = math.floor(self.wave_life * self.multiplayed)
-        self.time_between_enemies = round(self.time_between_enemies / self.multiplayed,2)
+        self.max_enemies_in_wave = math.floor(self.max_enemies_in_wave * self.multiplier)
+        self.wave_life = math.floor(self.wave_life * self.multiplier)
+        self.time_between_enemies = round(self.time_between_enemies / self.multiplier,2)
+        self.life_multiplier *= self.multiplier
         self.enemies_in_wave = arcade.SpriteList()
 
 
@@ -55,7 +58,10 @@ class Waves():
     def new_enemy(self):
 
         enemy = random.choice(self.enemies_list)
-        self.enemies_in_wave.append(self.create_enemy(enemy))
+        add_enemy = self.create_enemy(enemy)
+        add_enemy.life = math.floor(add_enemy.life * self.life_multiplier)
+        print(add_enemy.life)
+        self.enemies_in_wave.append(add_enemy)
         self.enemies_counter += 1
 
     def reset(self):
@@ -68,6 +74,7 @@ class Waves():
         self.enemies_list = [Zombie()]
         self.enemies_in_wave = arcade.SpriteList()
         self.time_between_enemies = 2
+        self.coins = 20
 
     def create_enemy(self, enemy):
         if enemy.name == "zombie":

@@ -62,7 +62,7 @@ class SideMenu():
             self._menu_options.append(object)
 
 
-    def on_mouse_press(self, x, y):
+    def on_mouse_press(self, x, y, coins):
         """Recognize when the player has press a tower to drag it
         
         Args.
@@ -75,14 +75,15 @@ class SideMenu():
         # Here I want to know what tower has been clicked, and I have to create
         # duplicate to drag.
         if len(towers) > 0:
-            #Create the new tower
-            new_tower = self.create_tower(towers[0]) #? this could be another way copy.deepcopy(towers[0])
+            if towers[0].price <= coins:
+                #Create the new tower
+                new_tower = self.create_tower(towers[0]) #? this could be another way copy.deepcopy(towers[0])
 
-            self._held_towers = [new_tower]
-            new_tower.selected = True
+                self._held_towers = [new_tower]
+                new_tower.selected = True
 
-            # Save the original position
-            self._held_towers_original_position = [self._held_towers[0].position]
+                # Save the original position
+                self._held_towers_original_position = [self._held_towers[0].position]
 
     def on_mouse_motion(self, dx, dy):
         """Recognize when the user move the mouse and drag the tower
@@ -93,7 +94,7 @@ class SideMenu():
             tower.center_x += dx
             tower.center_y += dy
 
-    def on_mouse_release(self, towers_list, x, y):
+    def on_mouse_release(self, towers_list, x, y,wave):
         """"""
 
         # For now, we don't have a collision detection to know
@@ -115,6 +116,9 @@ class SideMenu():
             dropped_tower.position = x, y
             dropped_tower.selected = False
             dropped_tower.in_panel = False
+            wave.coins -= dropped_tower.price
+            print(wave.coins)
+            print(dropped_tower.price)
             towers_list.append(dropped_tower)
         
         self._held_towers.clear()

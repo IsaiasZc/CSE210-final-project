@@ -52,6 +52,7 @@ class Enemies(arcade.Sprite):
                                      color=arcade.color.GREEN)
         # The enemy name
         self.name = ""
+        self.kill_coins = None
 
     def move(self):
         """Move the sprite in the path direction"""

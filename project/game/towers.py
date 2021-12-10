@@ -37,6 +37,10 @@ class Towers(arcade.Sprite):
         self.max_been_attacked = []
         self._time_since_last_attack = 0
         self.in_panel = True
+        self.price = None
+        self.upgrade_price = None
+        self.tower_level = 1
+        self.multiplier = 0.3
 
     def tower_atack(self, enemy_list):
 
@@ -99,13 +103,13 @@ class Towers(arcade.Sprite):
     def set_bullet_image(self,image):
         self._bullet_image = image
 
-    def update_bullet(self,enemy_list):
+    def update_bullet(self,wave):
         for bullet in self._bullet_list:
             if bullet.center_x < 0 or bullet.center_x > 1200 or bullet.center_y < 0 or bullet.center_y > 800:
                 bullet.kill()
                 continue
 
-            for enemy in enemy_list:
+            for enemy in wave.enemies_in_wave:
                 if arcade.check_for_collision(bullet,enemy):
                     enemy.life -= self.damage
                     # *self._bullet_list.remove(bullet)
@@ -115,6 +119,7 @@ class Towers(arcade.Sprite):
                     self.max_been_attacked.remove(enemy)
                     
                 if enemy.life <= 0:
+                    wave.coins += enemy.kill_coins
                     enemy.kill()
 
             bullet.update()
@@ -139,3 +144,15 @@ class Towers(arcade.Sprite):
         return (self.in_range(enemy)
         and (len(self.max_been_attacked) < self.max_attacked)
         and enemy.focus == False)
+    
+    def upgrade(self,multiplicand_list,fire_rate=None):
+        #* upgrade_list = [self.damage,self.fire_rate,self.price]
+
+        self.tower_level += 1
+        for element in multiplicand_list:
+            element = round(element + (element * self.multiplier))
+        if fire_rate:
+            fire_rate -= (fire_rate * self.multiplier)
+
+    def set_upgrade(self):
+        pass

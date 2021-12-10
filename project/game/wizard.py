@@ -20,5 +20,10 @@ class Wizard(Towers):
         self.damage = 20
 
         self.max_attacked = 1
-
+        self.price = 10
         self.name = "wizard"
+        self.upgrade_price = 15
+    
+    def set_upgrade(self):
+        upgrade_list = [self.bullet_speed,self.damage,self.price,self.upgrade_price]
+        self.upgrade(upgrade_list,self.fire_rate)

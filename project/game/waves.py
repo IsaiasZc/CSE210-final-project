@@ -60,7 +60,6 @@ class Waves():
         enemy = random.choice(self.enemies_list)
         add_enemy = self.create_enemy(enemy)
         add_enemy.life = math.floor(add_enemy.life * self.life_multiplier)
-        print(add_enemy.life)
         self.enemies_in_wave.append(add_enemy)
         self.enemies_counter += 1
 

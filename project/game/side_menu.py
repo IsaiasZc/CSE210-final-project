@@ -117,8 +117,6 @@ class SideMenu():
             dropped_tower.selected = False
             dropped_tower.in_panel = False
             wave.coins -= dropped_tower.price
-            print(wave.coins)
-            print(dropped_tower.price)
             towers_list.append(dropped_tower)
         
         self._held_towers.clear()

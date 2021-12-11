@@ -55,11 +55,15 @@ class SideMenu():
     def draw_panel(self):
         """draw the panel"""    
         self._menu_panel.draw()
+        self._menu_options.draw()
     
     def set_menu_options(self, options_list):
 
         for object in options_list:
             self._menu_options.append(object)
+    
+    def add_menu_option(self, option):
+        self._menu_options.append(option)
 
 
     def on_mouse_press(self, x, y, coins):

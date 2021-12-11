@@ -19,8 +19,8 @@ class Director(FadingView):
         self.n = 1
 
         #* self.bol = None
-        self.wizard = None
-        self.wizard_list = []
+        self.tower = None
+        self.towers_list = []
         self.waves = Waves()
         #* self.enemy_list = []
         self.background = None # arcade.texture("project/game/images/map_one.png")
@@ -30,7 +30,7 @@ class Director(FadingView):
         # the first attempt to insert the side menu Class
         self.side_menu = SideMenu()
         self.background_sound = arcade.load_sound("project/game/sounds/Darkling_back_sound.mp3")
-        self.wizard_sound = arcade.load_sound("project/game/sounds/wizard_attack.mp3")
+        self.tower_sound = arcade.load_sound("project/game/sounds/wizard_attack.mp3")
         self.hit_sound = arcade.load_sound("project/game/sounds/hit.mp3")
         self.click_sound = arcade.load_sound("project/game/sounds/click_1.mp3")
 
@@ -40,9 +40,9 @@ class Director(FadingView):
         #* self.bol = Zombie()
         #* self.enemy_list = arcade.SpriteList()
         # self.enemy_list.append(self.bol)
-        self.wizard = Wizard()
-        self.wizard_list = arcade.SpriteList()
-        self.wizard_list.append(self.wizard)
+        # self.tower = tower()
+        self.towers_list = arcade.SpriteList()
+        # self.towers_list.append(self.tower)
 
         #* self.max_enemies = 20
         #* self.enemies_in_map = 0
@@ -54,6 +54,7 @@ class Director(FadingView):
 
         # Create the Side Menu
         self.side_menu.reset_panel()
+        #TODO Add the towers
         self.side_menu.set_menu_options([Wizard()])
      
 
@@ -69,32 +70,35 @@ class Director(FadingView):
 
         #* self.enemy_list.draw()
         self.waves.enemies_in_wave.draw()
-        for wizard in self.wizard_list:
-            wizard.draw_bullet()
+        for tower in self.towers_list:
+            tower.draw_bullet()
             
         for enemy in self.waves.enemies_in_wave:
             enemy.draw_health_number()
             enemy.draw_health_bar()
                        
-        # self.wizard.draw_bullet()
-        self.wizard_list.draw()
+        # self.tower.draw_bullet()
+        self.towers_list.draw()
         # Draw a grid s
         w = constants.SCREEN_WIDTH - 1
         h = constants.SCREEN_HEIGHT - 1
         n = 1
 
     def on_update(self, delta_time):
+
+        # if self.waves.wave_number == 5:
+        #     self.side_menu.add_menu_option()
         
         self.waves.update_wave(delta_time)
         if self.waves.end_wave():
             self.waves.add_new_wave()
 
-        self.wizard_list.update()
-        for wizard in self.wizard_list:
-            #* wizard.on_update(delta_time,self.enemy_list)
-            wizard.on_update(delta_time,self.waves.enemies_in_wave)
-            #* wizard.update_bullet(self.enemy_list)
-            wizard.update_bullet(self.waves)
+        self.towers_list.update()
+        for tower in self.towers_list:
+            #* tower.on_update(delta_time,self.enemy_list)
+            tower.on_update(delta_time,self.waves.enemies_in_wave)
+            #* tower.update_bullet(self.enemy_list)
+            tower.update_bullet(self.waves)
 
 
         if self.waves.wave_life is None:
@@ -111,7 +115,7 @@ class Director(FadingView):
 
     def on_mouse_release(self, x: float, y: float, button: int, modifiers: int):
         
-        self.side_menu.on_mouse_release(self.wizard_list,x,y,self.waves)
+        self.side_menu.on_mouse_release(self.towers_list,x,y,self.waves)
 
     
     def on_mouse_motion(self,x : float, y: float, dx: float, dy: float):

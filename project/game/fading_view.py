@@ -12,7 +12,8 @@ class FadingView(arcade.View):
         super().__init__()
         self.fade_out = None
         self.fade_in = 255
-
+        self.background = arcade.load_texture(":resources:images/backgrounds/abstract_1.jpg")
+        
     def update_fade(self, next_view=None):
         if self.fade_out is not None:
             self.fade_out += FADE_RATE

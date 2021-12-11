@@ -129,6 +129,9 @@ class Director(FadingView):
 # Different views
 class MenuView(FadingView):
     """ Class that manages the 'menu' view. """
+    def setup(self):
+        """ Set up the game and initialize the variables. """
+        self.background = arcade.load_texture(":resources:images/backgrounds/abstract_1.jpg")
 
     def on_update(self, dt):
         self.update_fade(next_view=InstructionView)
@@ -140,8 +143,16 @@ class MenuView(FadingView):
     def on_draw(self):
         """ Draw the menu """
         arcade.start_render()
-        arcade.draw_text("Menu Screen - press space to advance", constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2,
-                         arcade.color.BLACK, font_size=30, anchor_x="center")
+        arcade.draw_lrwh_rectangle_textured(0, 0,
+                                            constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT,
+                                            self.background)
+        arcade.draw_text("WELCOME TO THE MIXED TOWER DEFENSE GAME", 
+                        constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2 + 100,
+                        arcade.color.BLACK, font_size=30, bold=True, anchor_x="center")
+        arcade.draw_text("A Game where you will see different types of characters", 
+                        constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2,
+                        arcade.color.BLACK, font_size=30, anchor_x="center")
+
         self.draw_fading()
 
     def on_key_press(self, key, _modifiers):

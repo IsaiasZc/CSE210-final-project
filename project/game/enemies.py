@@ -25,15 +25,15 @@ class Enemies(arcade.Sprite):
         self.name = ""
         self.kill_coins = None
         
-    def draw_health_number(self):
-        """ Draw how many hit points we have """
+    # def draw_health_number(self):
+    #     """ Draw how many hit points we have """
 
-        health_string = f"{self.max_health}/ {self.life}"
-        arcade.draw_text(health_string,
-                         start_x=self.center_x + constants.HEALTH_NUMBER_OFFSET_X,
-                         start_y=self.center_y + constants.HEALTH_NUMBER_OFFSET_Y,
-                         font_size=8,
-                         color=arcade.color.WHITE)
+    #     health_string = f"{self.max_health}/ {self.life}"
+    #     arcade.draw_text(health_string,
+    #                      start_x=self.center_x + constants.HEALTH_NUMBER_OFFSET_X,
+    #                      start_y=self.center_y + constants.HEALTH_NUMBER_OFFSET_Y,
+    #                      font_size=8,
+    #                      color=arcade.color.WHITE)
 
     def draw_health_bar(self):
         """ Draw the health bar """
@@ -55,7 +55,7 @@ class Enemies(arcade.Sprite):
                                      height=constants.HEALTHBAR_HEIGHT,
                                      color=arcade.color.GREEN)
 
-    def move(self):
+    def move(self, wave):
         """Move the sprite in the path direction"""
 
         position = [self.center_x, self.center_y]
@@ -63,6 +63,7 @@ class Enemies(arcade.Sprite):
         for i, path in enumerate(constants.SCREEN_PATH):
             last_possition = 13
             if position == constants.SCREEN_PATH[last_possition]:
+                wave.wave_life -= 1
                 self.kill()
                 break
 

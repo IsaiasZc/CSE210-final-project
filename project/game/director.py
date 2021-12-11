@@ -74,7 +74,7 @@ class Director(FadingView):
             tower.draw_bullet()
             
         for enemy in self.waves.enemies_in_wave:
-            enemy.draw_health_number()
+            # enemy.draw_health_number()
             enemy.draw_health_bar()
                        
         # self.tower.draw_bullet()
@@ -101,7 +101,7 @@ class Director(FadingView):
             tower.update_bullet(self.waves)
 
 
-        if self.waves.wave_life is None:
+        if self.waves.wave_life <= 0:
             view = GameOverView()
             self.window.show_view(view) 
 

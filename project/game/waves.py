@@ -49,7 +49,9 @@ class Waves():
 
         self.enemies_in_wave.update()
         for enemy in self.enemies_in_wave:
-            enemy.move()
+            enemy.move(self)
+        
+        print(self.wave_life)
         
 
     def add_point(self):
@@ -68,7 +70,7 @@ class Waves():
         # TODO: Call the reset() in the SETUP to prepare the wave
         self.max_enemies_in_wave = 10
         self.wave_number = 1
-        self.wave_life = 3
+        self.wave_life = 2
         self.enemies_counter = 0
         self.enemies_list = [Zombie()]
         self.enemies_in_wave = arcade.SpriteList()

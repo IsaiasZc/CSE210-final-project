@@ -3,7 +3,7 @@ import os
 
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
-SCREEN_TITLE = "TowerDefense Alpha"
+SCREEN_TITLE = "Mixed TowerDefense"
 
 # The path forr he enemies
 SCREEN_PATH = [[600,820],[600,720],[230,720],[230,220],[790,220],[790,520],[610,520],[610,340],[410,340],[410,620],[970,620],[970,110],[620,110],[620,-10]]

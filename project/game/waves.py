@@ -51,8 +51,6 @@ class Waves():
         for enemy in self.enemies_in_wave:
             enemy.move(self)
         
-        print(self.wave_life)
-        
 
     def add_point(self):
         pass

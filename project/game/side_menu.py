@@ -26,6 +26,8 @@ class SideMenu():
         # they have to go back.
         self._held_towers_original_position = []
 
+        self.path_list= []
+
         # start the _menu_panel
 
     def reset_panel(self):
@@ -33,11 +35,12 @@ class SideMenu():
         self._menu_options = arcade.SpriteList()
         self._held_towers = arcade.SpriteList()
         self._menu_panel = arcade.SpriteList()
+        self.path_list = arcade.SpriteList()
         self._held_towers_original_position = []
         panel = arcade.SpriteSolidColor(constants.SIDE_MENU_WIDTH,constants.SIDE_MENU_HEIGHT,arcade.csscolor.CHOCOLATE)
         panel.position = constants.SIDE_MENU_WIDTH / 2, constants.SCREEN_HEIGHT / 2
         self._menu_panel.append(panel)
-
+        self.create_path()
 
         return self._menu_panel
 
@@ -49,13 +52,14 @@ class SideMenu():
             self : the SideMenu class.
         """
         if len(self._held_towers) > 0:
-            self._held_towers[0].draw_radius()
+            self._held_towers[0].draw_radius(self.path_list)
             self._held_towers[0].draw()
 
     def draw_panel(self):
         """draw the panel"""    
         self._menu_panel.draw()
         self._menu_options.draw()
+        # self.path_list.draw()
     
     def set_menu_options(self, options_list):
 
@@ -109,9 +113,10 @@ class SideMenu():
 
         # recognize if the player is releasing the tower over the panel
         in_panel = arcade.check_for_collision_with_list(self._held_towers[0],self._menu_panel)
+        in_path = arcade.check_for_collision_with_list(self._held_towers[0],self.path_list)
 
         # If the tower is relased in the panel, delete it
-        if len(in_panel) > 0:
+        if len(in_panel) > 0 or len(in_path) > 0:
             self._held_towers.clear()
 
         # For each held tower, set it in the map.
@@ -130,4 +135,25 @@ class SideMenu():
 
         if tower.name == "wizard":
             return Wizard()
+    
+    def create_path(self):
+        for i,(cur_x, cur_y) in enumerate(constants.SCREEN_PATH):
+            if i == 13:
+                break
+            next_x, next_y = constants.SCREEN_PATH[i + 1]
+            if cur_x == next_x:
+                width = 60
+                height = abs(cur_y - next_y)
+            elif cur_y == next_y:
+                width = abs(cur_x - next_x)
+                height = 60
+            panel = arcade.SpriteSolidColor(width, height, arcade.csscolor.WHITE)
+            # Vertical
+            if cur_x == next_x:
+                panel.position = next_x, next_y + ((cur_y - next_y) / 2)
+            # Horizontal
+            elif cur_y == next_y:
+                panel.position = next_x + ((cur_x - next_x) / 2) , next_y - 10
+            self.path_list.append(panel)
+
         

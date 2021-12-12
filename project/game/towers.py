@@ -131,8 +131,12 @@ class Towers(arcade.Sprite):
     # def get_bullet_list(self):
     #     return self._bullet_list
 
-    def draw_radius(self):
-        if self.selected:
+    def draw_radius(self, path):
+        in_path = arcade.check_for_collision_with_list(self,path)
+
+        if len(in_path) > 0 and self.selected:
+            arcade.draw_circle_filled(self.center_x,self.center_y, self.attack_range,(255, 80, 0, 60))
+        elif self.selected:
             arcade.draw_circle_filled(self.center_x,self.center_y, self.attack_range,(119, 243, 79, 60))
 
     def in_range(self, enemy):

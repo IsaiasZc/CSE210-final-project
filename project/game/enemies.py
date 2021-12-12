@@ -41,7 +41,7 @@ class Enemies(arcade.Sprite):
         # Draw the 'unhealthy' background
         if self.life < self.max_health:
             arcade.draw_rectangle_filled(center_x=self.center_x,
-                                         center_y=self.center_y + constants.HEALTHBAR_OFFSET_Y,
+                                         center_y=self.center_y + constants.HEALTHBAR_OFFSET_Y + 25,
                                          width=constants.HEALTHBAR_WIDTH,
                                          height=3,
                                          color=arcade.color.RED)
@@ -50,7 +50,7 @@ class Enemies(arcade.Sprite):
         health_width = constants.HEALTHBAR_WIDTH * (self.life / self.max_health)
 
         arcade.draw_rectangle_filled(center_x=self.center_x - 0.5 * (constants.HEALTHBAR_WIDTH - health_width),
-                                     center_y=self.center_y - 10,
+                                     center_y=self.center_y - 10 +25,
                                      width=health_width,
                                      height=constants.HEALTHBAR_HEIGHT,
                                      color=arcade.color.GREEN)

@@ -1,5 +1,5 @@
 import arcade
-
+import os
 
 WIDTH = 1200
 HEIGHT = 800
@@ -12,7 +12,24 @@ class FadingView(arcade.View):
         super().__init__()
         self.fade_out = None
         self.fade_in = 255
+        self.background = arcade.load_texture("project/game/images/sand_map.jpg")
+        self.instructions_bg = arcade.load_texture("project/game/images/instructions_bg.jpg")        
+        self.game_over_bg = arcade.load_texture("project/game/images/game_over.jpg")
+        self.main_menu_bg = arcade.load_texture("project/game/images/characters_bg.png")
+        # Backgrounds
+        self.bg_switch = False
+        self.draw_timer = 0
+        self.bg_x_timer = 0
+        self.bg_x = []
+        self.backgrounds = []
+        path = "project/game/images/backgrounds"
+        temp_bg = os.listdir(path)
+        for bg in temp_bg:
+            self.backgrounds.append(arcade.load_texture(path + "/" + bg))
 
+        for i in range(len(self.backgrounds)):
+            self.bg_x.append((i * 1200) - 800)
+     
     def update_fade(self, next_view=None):
         if self.fade_out is not None:
             self.fade_out += FADE_RATE

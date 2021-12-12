@@ -1,11 +1,14 @@
 import arcade
 import os
+import sys
 from game import constants
 from game.zombie import Zombie
 from game.wizard import Wizard
 from game.side_menu import SideMenu
 from game.waves import Waves
 from game.fading_view import FadingView
+from game.archer import Archer
+from game.assassin import Assassin
 
 class Director(FadingView):
     """The director of the game"""
@@ -57,7 +60,8 @@ class Director(FadingView):
         self.side_menu.reset_panel()
         #TODO Add the towers
         self.side_menu.set_menu_options([Wizard()])
-     
+        self.side_menu.set_menu_options([Archer()])
+        self.side_menu.set_menu_options([Assassin()])
 
     def on_draw(self):
         arcade.start_render()
@@ -240,7 +244,10 @@ class GameOverView(FadingView):
                                             constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT,
                                             self.game_over_bg)
         arcade.draw_text(">>>>>>> Press SPACE to restart <<<<<<<", 
-                        constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2 - 380,
+                        constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2 - 360,
+                        arcade.color.WHITE, font_size=25, italic=True,font_name=("Bauhaus 93"), anchor_x="center")
+        arcade.draw_text(">>>>>>> Press ESCAPE to exit the game <<<<<<<", 
+                        constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2 - 390,
                         arcade.color.WHITE, font_size=25, italic=True,font_name=("Bauhaus 93"), anchor_x="center")
 
         self.draw_fading()
@@ -251,6 +258,7 @@ class GameOverView(FadingView):
             self.fade_out = 0
         elif key == arcade.key.ESCAPE:
             self.fade_out = 0
+            os._exit(1)
 
     def setup(self):
         """ This should set up your game and get it ready to play """

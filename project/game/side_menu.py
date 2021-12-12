@@ -3,6 +3,8 @@ from arcade.sprite_list.sprite_list import SpriteList
 from game import constants
 import copy
 from game.wizard import Wizard
+from game.archer import Archer
+from game.assassin import Assassin
 
 class SideMenu():
 
@@ -130,4 +132,7 @@ class SideMenu():
 
         if tower.name == "wizard":
             return Wizard()
-        
+        elif tower.name == "archer":
+            return Archer()
+        elif tower.name == "assassin":
+            return Assassin()

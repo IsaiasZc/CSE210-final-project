@@ -4,13 +4,13 @@ from game import constants
 class Archer(Towers):
 
     def __init__(self):
-        self._image = "project/game/images/archer.png"
+        self._image = "game/images/archer.png"
         self._scale = 0.3
         super().__init__(self._image, self._scale)
 
         self.fire_rate = 1.0
         # Create the bullet
-        self.set_bullet_image("project/game/images/arrow1.png")
+        self.set_bullet_image("game/images/arrow1.png")
         self.bullet_speed = 5
 
         self.center_x, self.center_y = [constants.SIDE_MENU_WIDTH / 2, constants.SCREEN_HEIGHT / 2 + 200]

@@ -4,7 +4,7 @@ from game import constants
 class Wizard(Towers):
 
     def __init__(self):
-        self._image = "project/game/images/wizard.png"
+        self._image = "game/images/wizard.png"
         self._scale = 0.3
         super().__init__(self._image,self._scale)
 

@@ -4,13 +4,13 @@ from game import constants
 class Assassin(Towers):
 
     def __init__(self):
-        self._image = "project/game/images/assassin.png"
+        self._image = "game/images/assassin.png"
         self._scale = 0.3
         super().__init__(self._image, self._scale)
 
         self.fire_rate = 0.4
         # Create the bullet
-        self.set_bullet_image("project/game/images/knife1.png")
+        self.set_bullet_image("game/images/knife1.png")
         self.bullet_speed = 7
 
         self.center_x, self.center_y = [constants.SIDE_MENU_WIDTH / 2, constants.SCREEN_HEIGHT / 2 - 200]

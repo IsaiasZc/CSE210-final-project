@@ -24,8 +24,8 @@ class Wizard(Towers):
         self.upgrade_price = 15
 
         self.bullet_sound = arcade.load_sound("project/game/sounds/wizard_attack.mp3")
-        self.hit_sound = arcade.load_sound("project/game/sounds/hit.mp3")
-        
+        self.hit_sound = arcade.load_sound("project/game/sounds/wizard_hit.mp3")
+
     def set_upgrade(self):
         upgrade_list = [self.bullet_speed,self.damage,self.price,self.upgrade_price]
         self.upgrade(upgrade_list,self.fire_rate)

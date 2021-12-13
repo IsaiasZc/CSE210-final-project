@@ -25,11 +25,9 @@ class Director(FadingView):
         self.background = None 
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
-        # Insert the side menu Class
+        # Insert the side menu Class and Sounds
         self.side_menu = SideMenu()
         self.background_sound = arcade.load_sound("project/game/sounds/Darkling_back_sound.mp3")
-        self.wizard_sound = arcade.load_sound("project/game/sounds/wizard_attack.mp3")
-        self.hit_sound = arcade.load_sound("project/game/sounds/hit.mp3")
         self.click_sound = arcade.load_sound("project/game/sounds/click_1.mp3")
 
     def setup(self):
@@ -123,7 +121,7 @@ class MenuView(FadingView):
     def setup(self):
         """ Set up the game and initialize the variables. """
         # self.background = arcade.load_texture(":resources:images/backgrounds/abstract_1.jpg")
-        self.player = None
+        self.player_menu = None
 
     def on_update(self, dt):
         self.update_fade(next_view=InstructionView)
@@ -132,7 +130,7 @@ class MenuView(FadingView):
     def on_show(self):
         """ Called when switching to this view"""
         arcade.set_background_color(arcade.color.WHITE)
-        self.player = arcade.play_sound(self.background_sound, volume=0.6, looping=True)
+        self.player_menu = arcade.play_sound(self.background_sound, volume=0.6, looping=True)
 
     def on_draw(self):
         """ Draw the menu """
@@ -179,7 +177,7 @@ class MenuView(FadingView):
         game over and advance to the game over view. """
         if self.fade_out is None and key == arcade.key.SPACE:
             self.fade_out = 0
-            arcade.stop_sound(self.player)
+            arcade.stop_sound(self.player_menu)
 
     def setup(self):
         """ This should set up your game and get it ready to play """

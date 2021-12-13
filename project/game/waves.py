@@ -79,7 +79,7 @@ class Waves():
         self.enemies_list = [Zombie()]
         self.enemies_in_wave = arcade.SpriteList()
         self.time_between_enemies = 2
-        self.coins = 20
+        self.coins = 100
 
     def create_enemy(self, enemy):
         if enemy.name == "zombie":

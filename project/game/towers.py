@@ -52,7 +52,7 @@ class Towers(arcade.Sprite):
             # WHere the attack start
             for enemy in enemy_list: 
                 if (enemy in self.max_been_attacked) and (self.in_range(enemy) == False):
-                    self.player_b = arcade.play_sound(self.bullet_sound, volume=0.5)
+                    # self.player_b = arcade.play_sound(self.bullet_sound, volume=0.5)
                     self.max_been_attacked.remove(enemy)
                     continue
 

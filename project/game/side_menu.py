@@ -61,6 +61,7 @@ class SideMenu():
         """draw the panel"""    
         self._menu_panel.draw()
         self._menu_options.draw()
+        self.draw_price(self._menu_options)
         # self.path_list.draw()
     
     def set_menu_options(self, options_list):
@@ -161,4 +162,14 @@ class SideMenu():
             # Horizontal
             elif cur_y == next_y:
                 panel.position = next_x + ((cur_x - next_x) / 2) , next_y - 10
-            self.path_list.append(panel)       
+            self.path_list.append(panel)
+
+    def draw_price(self,tower_list):
+        for tower in tower_list:    
+            price_string = f"Cost: {tower.price}"
+            arcade.draw_text(price_string,
+                            start_x=tower.center_x - 30,
+                            start_y=tower.center_y - 50,
+                            font_size=10,
+                            bold=True,
+                            color=arcade.color.BLUE)

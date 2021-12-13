@@ -40,7 +40,8 @@ class SideMenu():
         self.path_list = arcade.SpriteList()
         self._held_towers_original_position = []
         panel = arcade.SpriteSolidColor(constants.SIDE_MENU_WIDTH,constants.SIDE_MENU_HEIGHT,arcade.csscolor.CHOCOLATE)
-        panel.position = constants.SIDE_MENU_WIDTH / 2, constants.SCREEN_HEIGHT / 2
+        # panel = arcade.load_texture("project/game/images/side_menu.jpg")
+        panel.position = constants.SIDE_MENU_WIDTH / 2 - 100, constants.SCREEN_HEIGHT / 2
         self._menu_panel.append(panel)
         self.create_path()
 
@@ -173,14 +174,14 @@ class SideMenu():
                             start_y=tower.center_y - 50,
                             font_size=10,
                             bold=True,
-                            color=arcade.color.BLUE)
+                            color=arcade.color.WHITE_SMOKE)
     
     def draw_tower_name(self,tower_list):
         for tower in tower_list:    
-            name_string = f"{tower.name}"
+            name_string = f"{tower.name.capitalize()}"
             arcade.draw_text(name_string,
                             start_x=tower.center_x - 30,
                             start_y=tower.center_y + 40,
                             font_size=10,
                             bold=True,
-                            color=arcade.color.BLUE)
+                            color=arcade.color.WHITE_SMOKE)

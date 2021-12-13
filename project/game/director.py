@@ -28,6 +28,7 @@ class Director(FadingView):
         # Insert the side menu Class and Sounds
         self.side_menu = SideMenu()
         self.background_sound = arcade.load_sound("project/game/sounds/Darkling_back_sound.mp3")
+        self.game_over_sound = arcade.load_sound("project/game/sounds/game_over_sound.mp3")
         self.click_sound = arcade.load_sound("project/game/sounds/click_1.mp3")
 
     def setup(self):
@@ -36,7 +37,7 @@ class Director(FadingView):
         self.towers_list = arcade.SpriteList()
 
         # Load texture
-        self.background =arcade.load_texture("project/game/images/map_one.png")
+        self.background =arcade.load_texture("project/game/images/map_two.png")
 
         # Create the Side Menu
         self.side_menu.reset_panel()
@@ -219,11 +220,16 @@ class InstructionView(FadingView):
 
 class GameOverView(FadingView):
     """ Class to manage the game over view """
+    def setup(self):
+        """ Set up the game and initialize the variables. """
+        self.player_game_over = None
+
     def on_update(self, dt):
         self.update_fade(next_view=MenuView)
 
     def on_show(self):
         """ Called when switching to this view"""
+        self.player_game_over = arcade.play_sound(self.game_over_sound, volume=0.6)
         arcade.set_background_color(arcade.color.BLACK)
 
     def on_draw(self):
@@ -245,8 +251,10 @@ class GameOverView(FadingView):
         """ If user hits escape, go back to the main menu view """
         if key == arcade.key.SPACE:
             self.fade_out = 0
+            arcade.stop_sound(self.player_game_over)
         elif key == arcade.key.ESCAPE:
             self.fade_out = 0
+            arcade.stop_sound(self.player_game_over)
             os._exit(1)
 
     def setup(self):

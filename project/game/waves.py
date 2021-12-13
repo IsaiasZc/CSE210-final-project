@@ -91,9 +91,9 @@ class Waves():
     def draw_life(self):
         life_string = f"Life: {self.wave_life}"
         arcade.draw_text(life_string,
-                        start_x=270,
-                        start_y=770,
-                        font_size=10,
+                        start_x=250,
+                        start_y=760,
+                        font_size=20,
                         bold=True,
                         color=arcade.color.RED)
     
@@ -101,16 +101,16 @@ class Waves():
         coins_string = f"Coins: {self.coins}"
         arcade.draw_text(coins_string,
                         start_x=370,
-                        start_y=770,
-                        font_size=10,
+                        start_y=760,
+                        font_size=20,
                         bold=True,
                         color=arcade.color.RED)
 
     def draw_wave(self):
         wave_string = f"Wave: {self.wave_number}"
         arcade.draw_text(wave_string,
-                        start_x=470,
-                        start_y=770,
-                        font_size=10,
+                        start_x=550,
+                        start_y=760,
+                        font_size=25,
                         bold=True,
                         color=arcade.color.RED)

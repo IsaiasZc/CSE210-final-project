@@ -44,6 +44,7 @@ class Towers(arcade.Sprite):
 
         self.bullet_sound = None
         self.hit_sound = None
+        self.hit = None
 
     def tower_atack(self, enemy_list):
 
@@ -123,8 +124,8 @@ class Towers(arcade.Sprite):
                 if arcade.check_for_collision(bullet,enemy):
                     enemy.life -= self.damage
                     # *self._bullet_list.remove(bullet)
-                    arcade.stop_sound(self.player_b)
-                    arcade.play_sound(self.hit_sound)
+                    # arcade.stop_sound(self.player_b)
+                    self.hit = arcade.play_sound(self.hit_sound)
                     bullet.kill()
                 
                 if (enemy.life <= 0) and (enemy in self.max_been_attacked):
@@ -133,8 +134,10 @@ class Towers(arcade.Sprite):
                 if enemy.life <= 0:
                     wave.coins += enemy.kill_coins
                     enemy.kill()
+                    arcade.stop_sound(self.hit)
 
             bullet.update()
+            
 
     def draw_bullet(self):
         for bullet in self._bullet_list:

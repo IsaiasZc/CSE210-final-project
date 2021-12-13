@@ -25,7 +25,7 @@ class Archer(Towers):
         self.name = "archer"
         self.upgrade_price = 20
 
-        self.bullet_sound = arcade.load_sound("project/game/sounds/archer_attack.mp3")
+        # self.bullet_sound = arcade.load_sound("project/game/sounds/archer_attack.mp3")
         self.hit_sound = arcade.load_sound("project/game/sounds/archer_hit.mp3")
     
     def set_upgrade(self):

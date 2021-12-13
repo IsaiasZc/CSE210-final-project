@@ -47,14 +47,14 @@ class SideMenu():
         return self._menu_panel
 
 
-    def draw_held_towers(self):
+    def draw_held_towers(self,towers_list):
         """This method will help us to draw the held tower by the player while is been dragging.
         
         Args.
             self : the SideMenu class.
         """
         if len(self._held_towers) > 0:
-            self._held_towers[0].draw_radius(self.path_list)
+            self._held_towers[0].draw_radius(self.path_list,towers_list)
             self._held_towers[0].draw()
 
     def draw_panel(self):
@@ -116,9 +116,10 @@ class SideMenu():
         # recognize if the player is releasing the tower over the panel
         in_panel = arcade.check_for_collision_with_list(self._held_towers[0],self._menu_panel)
         in_path = arcade.check_for_collision_with_list(self._held_towers[0],self.path_list)
+        other_towers = arcade.check_for_collision_with_list(self._held_towers[0],towers_list)
 
         # If the tower is relased in the panel, delete it
-        if len(in_panel) > 0 or len(in_path) > 0:
+        if len(in_panel) > 0 or len(in_path) > 0 or len(other_towers) > 0:
             self._held_towers.clear()
 
         # For each held tower, set it in the map.

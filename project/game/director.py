@@ -71,7 +71,7 @@ class Director(FadingView):
 
         # Draw the sideMenu
         self.side_menu.draw_panel()
-        self.side_menu.draw_held_towers()
+        self.side_menu.draw_held_towers(self.towers_list)
 
         #* self.enemy_list.draw()
         self.waves.enemies_in_wave.draw()

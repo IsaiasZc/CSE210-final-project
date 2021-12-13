@@ -37,6 +37,11 @@ class Waves():
         #     enemy = random.choice(self.enemies_list)
         #     self.enemies_in_wave.append(self.create_enemy(enemy))
 
+    def draw_info(self):
+        self.draw_coins()
+        self.draw_wave()
+        self.draw_life()
+
     def update_wave(self,delta_time):
 
         while self.enemies_counter < self.max_enemies_in_wave:
@@ -82,3 +87,30 @@ class Waves():
     
     def end_wave(self):
         return self.max_enemies_in_wave == self.enemies_counter and len(self.enemies_in_wave) == 0
+
+    def draw_life(self):
+        life_string = f"Life: {self.wave_life}"
+        arcade.draw_text(life_string,
+                        start_x=270,
+                        start_y=770,
+                        font_size=10,
+                        bold=True,
+                        color=arcade.color.RED)
+    
+    def draw_coins(self):
+        coins_string = f"Coins: {self.coins}"
+        arcade.draw_text(coins_string,
+                        start_x=370,
+                        start_y=770,
+                        font_size=10,
+                        bold=True,
+                        color=arcade.color.RED)
+
+    def draw_wave(self):
+        wave_string = f"Wave: {self.wave_number}"
+        arcade.draw_text(wave_string,
+                        start_x=470,
+                        start_y=770,
+                        font_size=10,
+                        bold=True,
+                        color=arcade.color.RED)

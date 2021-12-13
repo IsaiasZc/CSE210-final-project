@@ -59,9 +59,9 @@ class Director(FadingView):
         # Create the Side Menu
         self.side_menu.reset_panel()
         #TODO Add the towers
-        self.side_menu.set_menu_options([Wizard()])
-        self.side_menu.set_menu_options([Archer()])
-        self.side_menu.set_menu_options([Assassin()])
+        self.side_menu.set_menu_options([Wizard(),Archer(),Assassin()])
+        # self.side_menu.set_menu_options([Archer()])
+        # self.side_menu.set_menu_options([Assassin()])
 
     def on_draw(self):
         arcade.start_render()
@@ -71,13 +71,15 @@ class Director(FadingView):
 
         # Draw the sideMenu
         self.side_menu.draw_panel()
-        self.side_menu.draw_held_towers()
+        self.side_menu.draw_held_towers(self.towers_list)
 
         #* self.enemy_list.draw()
         self.waves.enemies_in_wave.draw()
         for tower in self.towers_list:
             tower.draw_bullet()
             
+        self.waves.draw_info()
+
         for enemy in self.waves.enemies_in_wave:
             #enemy.draw_health_number()
 

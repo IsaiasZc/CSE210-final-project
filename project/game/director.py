@@ -22,7 +22,8 @@ class Director(FadingView):
         self.tower = None
         self.towers_list = []
         self.waves = Waves()
-        self.background = None 
+        #* self.enemy_list = []
+        self.background = None # arcade.texture("game/images/map_one.png")
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
         # Insert the side menu Class and Sounds
@@ -38,6 +39,7 @@ class Director(FadingView):
 
         # Load texture
         self.background =arcade.load_texture("game/images/map_two.png")
+
 
         # Create the Side Menu
         self.side_menu.reset_panel()

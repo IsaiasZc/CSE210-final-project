@@ -7,6 +7,7 @@ class Assassin(Towers):
     def __init__(self):
         self._image = "game/images/assassin.png"
         self._scale = 0.4
+
         super().__init__(self._image, self._scale)
 
         self.fire_rate = 0.4

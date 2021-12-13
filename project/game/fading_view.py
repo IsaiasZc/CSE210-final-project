@@ -29,6 +29,9 @@ class FadingView(arcade.View):
 
         for i in range(len(self.backgrounds)):
             self.bg_x.append((i * 1200) - 800)
+
+        #Sounds
+        self.background_sound = arcade.load_sound("project/game/sounds/Darkling_back_sound.mp3")
      
     def update_fade(self, next_view=None):
         if self.fade_out is not None:

@@ -16,13 +16,9 @@ class Director(FadingView):
     def __init__(self):
 
         # Call the parent class and set up the window
-        # super().__init__(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, constants.SCREEN_TITLE)
-        # Code to change to view instead of window
         super().__init__()
 
         self.n = 1
-
-        #* self.bol = None
         self.tower = None
         self.towers_list = []
         self.waves = Waves()
@@ -30,8 +26,7 @@ class Director(FadingView):
         self.background = None # arcade.texture("game/images/map_one.png")
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
-
-        # the first attempt to insert the side menu Class
+        # Insert the side menu Class and Sounds
         self.side_menu = SideMenu()
         self.background_sound = arcade.load_sound("game/sounds/Darkling_back_sound.mp3")
         self.tower_sound = arcade.load_sound("game/sounds/wizard_attack.mp3")
@@ -41,15 +36,7 @@ class Director(FadingView):
     def setup(self):
 
         self.waves.reset()
-        #* self.bol = Zombie()
-        #* self.enemy_list = arcade.SpriteList()
-        # self.enemy_list.append(self.bol)
-        # self.tower = tower()
         self.towers_list = arcade.SpriteList()
-        # self.towers_list.append(self.tower)
-
-        #* self.max_enemies = 20
-        #* self.enemies_in_map = 0
 
         # Load texture
         self.background =arcade.load_texture("game/images/map_one.png")
@@ -58,10 +45,9 @@ class Director(FadingView):
 
         # Create the Side Menu
         self.side_menu.reset_panel()
-        #TODO Add the towers
+        # Add the towers
         self.side_menu.set_menu_options([Wizard(),Archer(),Assassin()])
-        # self.side_menu.set_menu_options([Archer()])
-        # self.side_menu.set_menu_options([Assassin()])
+
 
     def on_draw(self):
         arcade.start_render()
@@ -140,13 +126,16 @@ class MenuView(FadingView):
     def setup(self):
         """ Set up the game and initialize the variables. """
         # self.background = arcade.load_texture(":resources:images/backgrounds/abstract_1.jpg")
-     
+        self.player_menu = None
+
     def on_update(self, dt):
         self.update_fade(next_view=InstructionView)
+        
 
     def on_show(self):
         """ Called when switching to this view"""
         arcade.set_background_color(arcade.color.WHITE)
+        self.player_menu = arcade.play_sound(self.background_sound, volume=0.6, looping=True)
 
     def on_draw(self):
         """ Draw the menu """
@@ -193,6 +182,7 @@ class MenuView(FadingView):
         game over and advance to the game over view. """
         if self.fade_out is None and key == arcade.key.SPACE:
             self.fade_out = 0
+            arcade.stop_sound(self.player_menu)
 
     def setup(self):
         """ This should set up your game and get it ready to play """
@@ -234,11 +224,16 @@ class InstructionView(FadingView):
 
 class GameOverView(FadingView):
     """ Class to manage the game over view """
+    def setup(self):
+        """ Set up the game and initialize the variables. """
+        self.player_game_over = None
+
     def on_update(self, dt):
         self.update_fade(next_view=MenuView)
 
     def on_show(self):
         """ Called when switching to this view"""
+        self.player_game_over = arcade.play_sound(self.game_over_sound, volume=0.6)
         arcade.set_background_color(arcade.color.BLACK)
 
     def on_draw(self):
@@ -260,8 +255,10 @@ class GameOverView(FadingView):
         """ If user hits escape, go back to the main menu view """
         if key == arcade.key.SPACE:
             self.fade_out = 0
+            arcade.stop_sound(self.player_game_over)
         elif key == arcade.key.ESCAPE:
             self.fade_out = 0
+            arcade.stop_sound(self.player_game_over)
             os._exit(1)
 
     def setup(self):

@@ -1,3 +1,4 @@
+import arcade
 from game.towers import Towers
 from game import constants
 
@@ -23,6 +24,10 @@ class Assassin(Towers):
         self.price = 12
         self.name = "assassin"
         self.upgrade_price = 30
+        
+        # self.bullet_sound = arcade.load_sound("project/game/sounds/assassin_attack.mp3")
+        self.hit_sound = arcade.load_sound("project/game/sounds/assassin_hit.mp3")
+    
     
     def set_upgrade(self):
         upgrade_list = [self.bullet_speed,self.damage,self.price,self.upgrade_price]

@@ -62,6 +62,7 @@ class SideMenu():
         self._menu_panel.draw()
         self._menu_options.draw()
         self.draw_price(self._menu_options)
+        self.draw_tower_name(self._menu_options)
         # self.path_list.draw()
     
     def set_menu_options(self, options_list):
@@ -170,6 +171,16 @@ class SideMenu():
             arcade.draw_text(price_string,
                             start_x=tower.center_x - 30,
                             start_y=tower.center_y - 50,
+                            font_size=10,
+                            bold=True,
+                            color=arcade.color.BLUE)
+    
+    def draw_tower_name(self,tower_list):
+        for tower in tower_list:    
+            name_string = f"{tower.name}"
+            arcade.draw_text(name_string,
+                            start_x=tower.center_x - 30,
+                            start_y=tower.center_y + 40,
                             font_size=10,
                             bold=True,
                             color=arcade.color.BLUE)

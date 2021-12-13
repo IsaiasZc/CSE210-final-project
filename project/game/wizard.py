@@ -5,7 +5,7 @@ from game import constants
 class Wizard(Towers):
 
     def __init__(self):
-        self._image = "project/game/images/wizard.png"
+        self._image = "game/images/wizard.png"
         self._scale = 0.3
         super().__init__(self._image,self._scale)
 
@@ -23,8 +23,8 @@ class Wizard(Towers):
         self.name = "wizard"
         self.upgrade_price = 15
 
-        # self.bullet_sound = arcade.load_sound("project/game/sounds/wizard_attack.mp3")
-        self.hit_sound = arcade.load_sound("project/game/sounds/wizard_hit.mp3")
+        # self.bullet_sound = arcade.load_sound("game/sounds/wizard_attack.mp3")
+        self.hit_sound = arcade.load_sound("game/sounds/wizard_hit.mp3")
 
     def set_upgrade(self):
         upgrade_list = [self.bullet_speed,self.damage,self.price,self.upgrade_price]

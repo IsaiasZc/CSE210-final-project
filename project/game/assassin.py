@@ -15,7 +15,7 @@ class Assassin(Towers):
 
         self.center_x, self.center_y = [constants.SIDE_MENU_WIDTH / 2, constants.SCREEN_HEIGHT / 2 - 200]
 
-        self.attack_range = 15
+        self.attack_range = 10
 
         self.damage = 10
 

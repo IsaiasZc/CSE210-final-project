@@ -161,6 +161,4 @@ class SideMenu():
             # Horizontal
             elif cur_y == next_y:
                 panel.position = next_x + ((cur_x - next_x) / 2) , next_y - 10
-            self.path_list.append(panel)
-
-        
+            self.path_list.append(panel)       

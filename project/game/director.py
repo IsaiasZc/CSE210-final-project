@@ -78,6 +78,8 @@ class Director(FadingView):
         for tower in self.towers_list:
             tower.draw_bullet()
             
+        self.waves.draw_info()
+
         for enemy in self.waves.enemies_in_wave:
             #enemy.draw_health_number()
 

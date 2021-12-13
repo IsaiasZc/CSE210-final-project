@@ -40,7 +40,7 @@ class SideMenu():
         self.path_list = arcade.SpriteList()
         self._held_towers_original_position = []
         panel = arcade.SpriteSolidColor(constants.SIDE_MENU_WIDTH,constants.SIDE_MENU_HEIGHT,arcade.csscolor.CHOCOLATE)
-        # panel = arcade.load_texture("project/game/images/side_menu.jpg")
+        # panel = arcade.load_texture("game/images/side_menu.jpg")
         panel.position = constants.SIDE_MENU_WIDTH / 2 - 100, constants.SCREEN_HEIGHT / 2
         self._menu_panel.append(panel)
         self.create_path()

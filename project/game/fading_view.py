@@ -12,7 +12,7 @@ class FadingView(arcade.View):
         super().__init__()
         self.fade_out = None
         self.fade_in = 255
-        self.background = arcade.load_texture("game/images/sand_map.jpg")
+        # self.background = arcade.load_texture("game/images/sand_map.jpg")
         self.instructions_bg = arcade.load_texture("game/images/instructions_bg.jpg")        
         self.game_over_bg = arcade.load_texture("game/images/game_over.jpg")
         self.main_menu_bg = arcade.load_texture("game/images/characters_bg.png")
@@ -31,7 +31,7 @@ class FadingView(arcade.View):
             self.bg_x.append((i * 1200) - 800)
 
         #Sounds
-        self.background_sound = arcade.load_sound("project/game/sounds/Darkling_back_sound.mp3")
+        self.background_sound = arcade.load_sound("game/sounds/Darkling_back_sound.mp3")
      
     def update_fade(self, next_view=None):
         if self.fade_out is not None:

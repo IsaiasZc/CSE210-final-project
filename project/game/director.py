@@ -29,8 +29,7 @@ class Director(FadingView):
         # Insert the side menu Class and Sounds
         self.side_menu = SideMenu()
         self.background_sound = arcade.load_sound("game/sounds/Darkling_back_sound.mp3")
-        self.tower_sound = arcade.load_sound("game/sounds/wizard_attack.mp3")
-        self.hit_sound = arcade.load_sound("game/sounds/hit.mp3")
+        self.game_over_sound = arcade.load_sound("game/sounds/game_over_sound.mp3")
         self.click_sound = arcade.load_sound("game/sounds/click_1.mp3")
 
     def setup(self):
@@ -39,9 +38,8 @@ class Director(FadingView):
         self.towers_list = arcade.SpriteList()
 
         # Load texture
-        self.background =arcade.load_texture("game/images/map_one.png")
+        self.background =arcade.load_texture("game/images/map_two.png")
 
-        #* arcade.schedule(self.add_enemy,1)
 
         # Create the Side Menu
         self.side_menu.reset_panel()

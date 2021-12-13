@@ -28,7 +28,7 @@ class Director(FadingView):
         # Insert the side menu Class
         self.side_menu = SideMenu()
         self.background_sound = arcade.load_sound("project/game/sounds/Darkling_back_sound.mp3")
-        self.tower_sound = arcade.load_sound("project/game/sounds/wizard_attack.mp3")
+        self.wizard_sound = arcade.load_sound("project/game/sounds/wizard_attack.mp3")
         self.hit_sound = arcade.load_sound("project/game/sounds/hit.mp3")
         self.click_sound = arcade.load_sound("project/game/sounds/click_1.mp3")
 
@@ -132,7 +132,7 @@ class MenuView(FadingView):
     def on_show(self):
         """ Called when switching to this view"""
         arcade.set_background_color(arcade.color.WHITE)
-        self.player = arcade.play_sound(self.background_sound)
+        self.player = arcade.play_sound(self.background_sound, volume=0.6, looping=True)
 
     def on_draw(self):
         """ Draw the menu """

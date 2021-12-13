@@ -12,7 +12,7 @@ class FadingView(arcade.View):
         super().__init__()
         self.fade_out = None
         self.fade_in = 255
-        self.background = arcade.load_texture("project/game/images/sand_map.jpg")
+        # self.background = arcade.load_texture("project/game/images/sand_map.jpg")
         self.instructions_bg = arcade.load_texture("project/game/images/instructions_bg.jpg")        
         self.game_over_bg = arcade.load_texture("project/game/images/game_over.jpg")
         self.main_menu_bg = arcade.load_texture("project/game/images/characters_bg.png")

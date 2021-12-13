@@ -59,9 +59,9 @@ class Director(FadingView):
         # Create the Side Menu
         self.side_menu.reset_panel()
         #TODO Add the towers
-        self.side_menu.set_menu_options([Wizard()])
-        self.side_menu.set_menu_options([Archer()])
-        self.side_menu.set_menu_options([Assassin()])
+        self.side_menu.set_menu_options([Wizard(),Archer(),Assassin()])
+        # self.side_menu.set_menu_options([Archer()])
+        # self.side_menu.set_menu_options([Assassin()])
 
     def on_draw(self):
         arcade.start_render()

@@ -5,23 +5,23 @@ class Assassin(Towers):
 
     def __init__(self):
         self._image = "project/game/images/assassin.png"
-        self._scale = 0.4
+        self._scale = 0.3
         super().__init__(self._image, self._scale)
 
-        self.fire_rate = 1.2
+        self.fire_rate = 0.4
         # Create the bullet
         self.set_bullet_image("project/game/images/knife1.png")
         self.bullet_speed = 7
 
         self.center_x, self.center_y = [constants.SIDE_MENU_WIDTH / 2, constants.SCREEN_HEIGHT / 2 - 200]
 
-        self.attack_range = 15
+        self.attack_range = 60
 
-        self.damage = 10
+        self.damage = 11
 
         self.max_attacked = 1
-        self.price = 10
-        self.name = "assasin"
+        self.price = 12
+        self.name = "assassin"
         self.upgrade_price = 30
     
     def set_upgrade(self):
